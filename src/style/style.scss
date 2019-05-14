@@ -3,44 +3,256 @@
   padding: 0;
   border: none;
 }
+
 html, body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 }
-.container {
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
-}
-.page {
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  transition: all 1s;
-  background: #f2f2f2;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.hidden {
-  display: none;
-}
-.prev {
-  transform: translate(0, -100vh);
-}
-.next {
-  transform: translate(0, 100vh);
+
+@font-face {
+  font-family: 'webfont';
+  src: url('./font/webfont.eot'); /* IE9 */
+  src: url('./font/webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('./font/webfont.woff') format('woff'), /* chrome、firefox */
+  url('./font/webfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('./font/webfont.svg#webfont') format('svg'); /* iOS 4.1- */
 }
 
-.btn {
-  width: 20vw;
-  height: 20vw;
-  background: #f2f2f2;
-  margin: 0 auto;
-  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2hldnJvbl90aGluX2Rvd24iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiBmaWxsPSJ3aGl0ZSIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTTE3LjQxOCw2LjEwOWMwLjI3Mi0wLjI2OCwwLjcwOS0wLjI2OCwwLjk3OSwwYzAuMjcsMC4yNjgsMC4yNzEsMC43MDEsMCwwLjk2OWwtNy45MDgsNy44M2MtMC4yNywwLjI2OC0wLjcwNywwLjI2OC0wLjk3OSwwbC03LjkwOC03LjgzYy0wLjI3LTAuMjY4LTAuMjctMC43MDEsMC0wLjk2OWMwLjI3MS0wLjI2OCwwLjcwOS0wLjI2OCwwLjk3OSwwTDEwLDEzLjI1TDE3LjQxOCw2LjEwOXoiLz48L3N2Zz4=);
-  outline: none;background-size: contain;
-	background-repeat: no-repeat;
+.web-font {
+  font-family: "webfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-.up-btn {
-  transform: rotate(180deg);
+
+.container {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+
+  .btn {
+    width: 20vw;
+    height: 20vw;
+    background: transparent;
+    margin: 0 auto;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2hldnJvbl90aGluX2Rvd24iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiBmaWxsPSJ3aGl0ZSIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTTE3LjQxOCw2LjEwOWMwLjI3Mi0wLjI2OCwwLjcwOS0wLjI2OCwwLjk3OSwwYzAuMjcsMC4yNjgsMC4yNzEsMC43MDEsMCwwLjk2OWwtNy45MDgsNy44M2MtMC4yNywwLjI2OC0wLjcwNywwLjI2OC0wLjk3OSwwbC03LjkwOC03LjgzYy0wLjI3LTAuMjY4LTAuMjctMC43MDEsMC0wLjk2OWMwLjI3MS0wLjI2OCwwLjcwOS0wLjI2OCwwLjk3OSwwTDEwLDEzLjI1TDE3LjQxOCw2LjEwOXoiLz48L3N2Zz4=);
+    outline: none;background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  @keyframes arrowUp {
+    from {
+      opacity: 0;
+      transform: translate(0, 4vw) rotate(180deg);;
+    } to {
+      opacity: 1;
+      transform: translate(0, -4vw) rotate(180deg);;
+    }
+  }
+
+  @keyframes arrowDown {
+    from {
+      opacity: 0;
+      transform: translate(0, -4vw);
+    } to {
+      opacity: 1;
+      transform: translate(0, 4vw);
+    }
+  }
+  
+  .up-btn {
+    animation: arrowUp 3s infinite;
+  }
+
+  .down-btn {
+    animation: arrowDown 3s infinite;
+  }
+
+  .page {
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    transition: all 1s;
+    background: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .prev {
+    transform: translate(0, -100%);
+  }
+
+  .next {
+    transform: translate(0, 100%);
+  }
+
+  @mixin song {
+    width: 96%;
+    height: 8%;
+    padding: 2%;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    &:nth-child(2n) {
+      background: #ececec;
+    }
+    
+    .song-name {
+      display: inline-block;
+      height: 100%;
+      width: 35vw;
+      font-size: 6vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .song-singer {
+      display: inline-block;
+      height: 100%;
+      font-size: 4vw;
+      width: 25vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .song-btn {
+      background: #fff;
+      width: 8vw;
+      height: 8vw;
+      outline: none;
+    }
+  }
+
+  #list {
+    .list-tit {
+      margin: 0 auto;
+    }
+
+    .list-main {
+      width: 86vw;
+      height: 76%;
+      background: transparent;
+      margin: 0 auto;
+      overflow-y: auto;
+      border: 1vw solid #1296db;
+
+      div {
+        display: flex;
+        align-items: center;
+      }
+
+      .song {
+        @include song()
+      }
+    }
+  }
+
+  #vanilla {
+    text-align: center;
+
+    .search-wrap {
+      position: absolute;
+      margin: 1.5vw;
+      height: 16vw;
+      width: 90.8vw;
+      border-radius: 9.2vw;
+      border: 0.6vw solid #ccc;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 5vw;
+      transform: translate(-96%, 0);
+      transition: all .3s ease-in;
+
+      #search {
+        width: 94%;
+        height: 100%;
+        font-size: 6vw;
+        color: #999;
+        background: transparent;
+        outline: none;
+      }
+
+      #drop {
+        width: 6%;
+        height: 100%;
+        background: transparent;
+        outline: none;
+
+        span {
+          font-size: 4vw;
+          color: #999;
+        }
+      }
+    }
+
+    .search-results {
+      position: absolute;
+      top: 18vw; // 这个和歌单改成js30样式
+    }
+
+    .drop-out {
+      transform: none;
+    }
+
+    .tit {
+      text-align: center;
+      color: rgba(0, 103, 220, 0.7);
+      text-shadow: rgba(0, 255, 0, 0.7) -5px -5px 0;
+      width: 100vw;
+      font-size: 30vw;
+    }
+  }
+
+  #player {
+    .player-main {
+      height: 70%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .song-tit {
+      transform: translate(0, -6vw);
+    }
+
+    .lyrics-wrap {
+      width: 70vw;
+      height: 100%;
+      background: red;
+      transform: translate(0, -5vw);
+    }
+
+    .progress {
+      position: relative;
+      width: 70vw;
+      height: 4px;
+      background: #1296db;
+      margin-top: 20px;
+
+      .dot {
+        background: url(../image/dot.png) no-repeat;
+        background-size: cover;
+        width: 38px;
+        height: 38px;
+        position: absolute;
+        top: -19px;
+        left: 0%;
+        transform: translate(-19px, 0);
+        z-index: 1;
+      }
+    }
+  }
 }

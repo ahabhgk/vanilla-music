@@ -9,20 +9,58 @@
   <title>原乐 - Vanilla Music - ☘️A so-simple music player. 🎶</title>
 </head>
 <body>
-  <main class="container">
+  <main class="container web-font">
     <div id="list" class="page prev">
       <button class="up-btn btn" type="button"></button>
-      list
+      <h2 class="list-tit">歌单</h2>
+      <div class="list-main">
+        <div class="song">
+          <div>
+            <span class="song-name">hahahahahahahahahahahaha</span>
+            <span class="song-singer">gogo</span>
+          </div>
+          <button id="play" class="song-btn"><span class="iconfont icon-right"></span></button>
+        </div>
+        <div class="song"></div>
+        <div class="song"></div>
+        <div class="song"></div>
+      </div>
       <button class="down-btn btn" type="button"></button>
     </div>
+
     <div id="vanilla" class="page active">
       <button class="up-btn btn" type="button"></button>
-      first
+      <div class="search-wrap">
+        <input id="search" placeholder="输入你想听的歌..." />
+        <button id="drop" type="button"><span class="iconfont icon-doubleright"></span></button>
+      </div>
+
+      <div class="search-results">
+        <div class="search-result">
+          <div>
+            <span class="song-name">hahahahahahahahahahahaha</span>
+            <span class="song-singer">gogo</span>
+          </div>
+          <button id="addAndPlay" class="song-btn"><span class="iconfont icon-right"></span></button>
+          <button id="add" class="song-btn"><span class="iconfont icon-plus"></span></button>
+        </div>
+      </div>
+      
+      <h1 class="tit">Vanilla Music</h1>
       <button class="down-btn btn" type="button"></button>
     </div>
+
     <div id="player" class="page next">
       <button class="up-btn btn" type="button"></button>
-      player
+      <div class="player-main">
+        <h2 class="song-tit">haha</h2>
+        <div class="lyrics-wrap">
+          <div class="lyrics"></div>
+        </div>
+        <div class="progress">
+          <div class="dot"></div>
+        </div>
+      </div>
       <button class="down-btn btn" type="button"></button>
     </div>
   </main>

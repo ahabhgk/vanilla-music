@@ -92,23 +92,15 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _style_style_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_style_scss__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _style_font_iconfont_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _style_font_iconfont_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_style_font_iconfont_css__WEBPACK_IMPORTED_MODULE_1__);
 
+ // 防止输入框弹出改变页面大小
 
-function debounce(fn) {
-  var timeout;
-  return function () {
-    var _this = this;
+window.onload = function () {
+  document.body.style.height = "".concat(window.screen.availHeight, "px");
+}; // 页面滚动切换
 
-    for (var _len = arguments.length, arg = new Array(_len), _key = 0; _key < _len; _key++) {
-      arg[_key] = arguments[_key];
-    }
-
-    clearTimeout(timeout);
-    timeout = setTimeout(function () {
-      fn.apply(_this, arg);
-    }, 0);
-  };
-}
 
 function changeClass(page, removed, added) {
   page.classList.remove(removed);
@@ -122,7 +114,7 @@ function rollUp() {
   next.classList.add('hidden');
   setTimeout(function () {
     next.classList.remove('hidden');
-  }, 1000);
+  }, 500);
   changeClass(prev, 'prev', 'active');
   changeClass(active, 'active', 'next');
   changeClass(next, 'next', 'prev');
@@ -135,7 +127,7 @@ function rollDown() {
   prev.classList.add('hidden');
   setTimeout(function () {
     prev.classList.remove('hidden');
-  }, 1000);
+  }, 500);
   changeClass(next, 'next', 'active');
   changeClass(active, 'active', 'prev');
   changeClass(prev, 'prev', 'next');
@@ -148,6 +140,79 @@ upBtns.forEach(function (btn) {
 });
 downBtns.forEach(function (btn) {
   btn.addEventListener('click', rollDown);
+}); // 搜索栏的弹出和隐藏
+
+var drop = document.querySelector('#drop');
+var dropIcon = drop.querySelector('span');
+var searchWrap = document.querySelector('.search-wrap');
+var isDroped = false;
+
+function dropSearch() {
+  if (isDroped) {
+    searchWrap.classList.remove('drop-out');
+    dropIcon.classList.remove('icon-doubleleft');
+    dropIcon.classList.add('icon-doubleright');
+    isDroped = !isDroped;
+  } else {
+    searchWrap.classList.add('drop-out');
+    dropIcon.classList.remove('icon-doubleright');
+    dropIcon.classList.add('icon-doubleleft');
+    isDroped = !isDroped;
+  }
+}
+
+drop.addEventListener('click', dropSearch); // 搜索框进行请求
+
+function debounce(fn, wait) {
+  var timeout;
+  return function () {
+    var _this = this;
+
+    for (var _len = arguments.length, arg = new Array(_len), _key = 0; _key < _len; _key++) {
+      arg[_key] = arguments[_key];
+    }
+
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      fn.apply(_this, arg);
+    }, wait);
+  };
+}
+
+function searching() {
+  var keywords = this.value;
+  fetch("http://localhost:8080/search?keywords=".concat(keywords), {
+    mode: 'no-cors'
+  }).then(function (data) {
+    return data.json();
+  }).then(function (res) {
+    return console.log(res);
+  })["catch"](function (e) {
+    console.log(e);
+  });
+}
+
+var search = document.querySelector('#search');
+search.addEventListener('input', debounce(searching, 500)); // 标题的影子效果
+
+var firstPage = document.querySelector('#vanilla');
+var tit = document.querySelector('#vanilla>.tit');
+var WALK = 200;
+
+function shadow(e) {
+  var width = firstPage.offsetWidth,
+      height = firstPage.offsetHeight;
+  var _e$targetTouches$ = e.targetTouches[0],
+      x = _e$targetTouches$.pageX,
+      y = _e$targetTouches$.pageY;
+  var xWalk = Math.round(x / width * WALK - WALK / 2);
+  var yWalk = Math.round(y / height * WALK - WALK / 2);
+  tit.style.textShadow = "".concat(xWalk, "px ").concat(yWalk, "px 0 rgba(0, 255, 0, 0.7)");
+}
+
+firstPage.addEventListener('touchmove', shadow);
+firstPage.addEventListener('touchend', function () {
+  tit.style.textShadow = 'rgba(0, 255, 0, 0.7) -5px -5px 0';
 });
 
 /***/ }),
@@ -156,6 +221,12 @@ downBtns.forEach(function (btn) {
 
 // extracted by mini-css-extract-plugin
 
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.f6b8f722.js.map
+//# sourceMappingURL=main.2d9c861f.js.map
