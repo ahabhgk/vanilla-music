@@ -181,9 +181,7 @@ function debounce(fn, wait) {
 
 function searching() {
   var keywords = this.value;
-  fetch("http://localhost:8080/search?keywords=".concat(keywords), {
-    mode: 'no-cors'
-  }).then(function (data) {
+  fetch("/search?keywords=".concat(keywords)).then(function (data) {
     return data.json();
   }).then(function (res) {
     return console.log(res);
@@ -229,4 +227,4 @@ firstPage.addEventListener('touchend', function () {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.2d9c861f.js.map
+//# sourceMappingURL=main.58822fe3.js.map

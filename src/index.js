@@ -87,11 +87,12 @@ function debounce(fn, wait) {
 
 function searching() {
   const keywords = this.value
-  fetch(`http://localhost:8080/search?keywords=${keywords}`, {
-    mode: 'no-cors',
-  }).then(data => data.json()).then(res => console.log(res)).catch((e) => {
-    console.log(e)
-  })
+  fetch(`/search?keywords=${keywords}`)
+    .then(data => data.json())
+    .then(res => console.log(res))
+    .catch((e) => {
+      console.log(e)
+    })
 }
 
 const search = document.querySelector('#search')

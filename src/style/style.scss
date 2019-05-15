@@ -92,44 +92,66 @@ html, body {
     transform: translate(0, 100%);
   }
 
-  @mixin song {
-    width: 96%;
-    height: 8%;
-    padding: 2%;
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #fff;
-    &:nth-child(2n) {
-      background: #ececec;
-    }
-    
-    .song-name {
-      display: inline-block;
-      height: 100%;
-      width: 35vw;
-      font-size: 6vw;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+  @mixin list() {
+    width: 86vw;
+    height: 67%;
+    overflow-y: auto;
+    box-shadow: 0px 15px 15px -15px rgba(0, 0, 0, 0.14),
+      0px -15px 15px -15px rgba(0, 0, 0, 0.14); 
+
+    div {
+      display: flex;
+      align-items: center;
     }
 
-    .song-singer {
-      display: inline-block;
-      height: 100%;
-      font-size: 4vw;
-      width: 25vw;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    .song {
+      width: 90%;
+      height: 8%;
+      padding: 2%;
+      margin: 0 auto;
+      transition: background .2s;
+      border-bottom: 1px solid #D8D8D8;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      &:nth-child(2n) {
+        background: #ececec;
+        transform: perspective(100px) rotateX(3deg) translateY(2px) scale(1.001);
+        background: linear-gradient(to bottom,  #ffffff 0%,#EFEFEF 100%);
+      }
+      &:nth-child(2n+1) {
+        background: #fff;
+        transform: perspective(100px) rotateX(-3deg) translateY(3px);
+        background: linear-gradient(to top,  #ffffff 0%,#EFEFEF 100%);
+      }
 
-    .song-btn {
-      background: #fff;
-      width: 8vw;
-      height: 8vw;
-      outline: none;
+      .song-name {
+        display: inline-block;
+        height: 100%;
+        width: 35vw;
+        font-size: 6vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .song-singer {
+        display: inline-block;
+        height: 100%;
+        font-size: 4vw;
+        width: 25vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .song-btn {
+        background: transparent;
+        width: 8vw;
+        height: 8vw;
+        outline: none;
+      }
     }
   }
 
@@ -139,21 +161,8 @@ html, body {
     }
 
     .list-main {
-      width: 86vw;
-      height: 76%;
-      background: transparent;
       margin: 0 auto;
-      overflow-y: auto;
-      border: 1vw solid #1296db;
-
-      div {
-        display: flex;
-        align-items: center;
-      }
-
-      .song {
-        @include song()
-      }
+      @include list();
     }
   }
 
@@ -162,21 +171,23 @@ html, body {
 
     .search-wrap {
       position: absolute;
-      margin: 1.5vw;
-      height: 16vw;
-      width: 90.8vw;
-      border-radius: 9.2vw;
-      border: 0.6vw solid #ccc;
+      margin: 1.5vw 0 0 5vw;
+      height: 14vw;
+      width: 80vw;
+      padding-left: 5vw;
       background: #f2f2f2;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-left: 5vw;
-      transform: translate(-96%, 0);
+      transform: translate(-96vw, 0);
       transition: all .3s ease-in;
+      z-index: 1;
+      border-radius: 5px;
+      border: 2.5vw solid #F7F7F7;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.19);
 
       #search {
-        width: 94%;
+        width: 100%;
         height: 100%;
         font-size: 6vw;
         color: #999;
@@ -189,6 +200,7 @@ html, body {
         height: 100%;
         background: transparent;
         outline: none;
+        transform: translate(8vw, 0);
 
         span {
           font-size: 4vw;
@@ -197,9 +209,11 @@ html, body {
       }
     }
 
-    .search-results {
+    .search-main {
       position: absolute;
-      top: 18vw; // 这个和歌单改成js30样式
+      top: 21.4vw;
+      left: 7vw;
+      @include list();
     }
 
     .drop-out {
