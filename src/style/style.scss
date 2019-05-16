@@ -116,12 +116,10 @@ html, body {
       justify-content: space-between;
       align-items: center;
       &:nth-child(2n) {
-        background: #ececec;
         transform: perspective(100px) rotateX(3deg) translateY(2px) scale(1.001);
         background: linear-gradient(to bottom,  #ffffff 0%,#EFEFEF 100%);
       }
       &:nth-child(2n+1) {
-        background: #fff;
         transform: perspective(100px) rotateX(-3deg) translateY(3px);
         background: linear-gradient(to top,  #ffffff 0%,#EFEFEF 100%);
       }
@@ -221,6 +219,7 @@ html, body {
         position: absolute;
         top: 22vw;
         left: 7vw;
+        z-index: 2;
         @include list(76%);
       }
     }
@@ -235,6 +234,7 @@ html, body {
       text-shadow: rgba(0, 255, 0, 0.7) -5px -5px 0;
       width: 100vw;
       font-size: 30vw;
+      z-index: 1;
     }
   }
 

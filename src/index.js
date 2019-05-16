@@ -75,6 +75,9 @@ function dropSearch() {
 drop.addEventListener('click', dropSearch)
 
 // 搜索框进行请求
+const search = document.querySelector('#search')
+const searchMain = document.querySelector('.search-main')
+
 function debounce(fn, wait) {
   let timeout
   return function (...arg) {
@@ -85,18 +88,22 @@ function debounce(fn, wait) {
   }
 }
 
-function searching() {
+async function searching() {
   const keywords = this.value
-  fetch(`/search?keywords=${keywords}`)
-    .then(data => data.json())
-    .then(res => console.log(res))
-    .catch((e) => {
-      console.log(e)
-    })
+  const data = await fetch(`/search?keywords=${keywords}`).then(res => res.json())
+  const html = data.result.songs.map(song => `
+      <div class="song">
+      <div>
+        <span class="song-name">${song.name}</span>
+        <span class="song-singer">${song.artists[0].name}</span>
+      </div>
+      <button id="addAndPlay" class="song-btn"><span class="iconfont icon-right"></span></button>
+      <button id="add" class="song-btn"><span class="iconfont icon-plus"></span></button>
+    </div>`)
+  searchMain.innerHTML = html
 }
 
-const search = document.querySelector('#search')
-search.addEventListener('input', debounce(searching, 500))
+search.addEventListener('input', debounce(searching, 300))
 
 // 标题的影子效果
 const firstPage = document.querySelector('#vanilla')
