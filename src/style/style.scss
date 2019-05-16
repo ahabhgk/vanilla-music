@@ -92,9 +92,9 @@ html, body {
     transform: translate(0, 100%);
   }
 
-  @mixin list() {
+  @mixin list($height) {
     width: 86vw;
-    height: 67%;
+    max-height: $height;
     overflow-y: auto;
     box-shadow: 0px 15px 15px -15px rgba(0, 0, 0, 0.14),
       0px -15px 15px -15px rgba(0, 0, 0, 0.14); 
@@ -105,9 +105,9 @@ html, body {
     }
 
     .song {
-      width: 90%;
-      height: 8%;
-      padding: 2%;
+      width: 92%;
+      height: 8vw;
+      padding: 2vw;
       margin: 0 auto;
       transition: background .2s;
       border-bottom: 1px solid #D8D8D8;
@@ -156,13 +156,19 @@ html, body {
   }
 
   #list {
-    .list-tit {
-      margin: 0 auto;
-    }
+    .list-wrap {
+      height: 75%;
+      text-align: center;
 
-    .list-main {
-      margin: 0 auto;
-      @include list();
+      .list-tit {
+        height: 8%;
+        margin: 0 auto;
+      }
+
+      .list-main {
+        margin: 0 auto;
+        @include list(92%);
+      }
     }
   }
 
@@ -170,50 +176,53 @@ html, body {
     text-align: center;
 
     .search-wrap {
+      font-size: 0;
+      width: 100vw;
+      height: 100%;
       position: absolute;
-      margin: 1.5vw 0 0 5vw;
-      height: 14vw;
-      width: 80vw;
-      padding-left: 5vw;
-      background: #f2f2f2;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       transform: translate(-96vw, 0);
       transition: all .3s ease-in;
-      z-index: 1;
-      border-radius: 5px;
-      border: 2.5vw solid #F7F7F7;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.19);
 
       #search {
-        width: 100%;
-        height: 100%;
+        display: inline-block;
+        margin: 1.5vw auto;
+        height: 14vw;
+        width: 80vw;
+        padding-left: 5vw;
+        background: #f2f2f2;
+        line-height: 14vw;
+        z-index: 1;
+        border-radius: 5px;
+        border: 2.5vw solid #F7F7F7;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.19);
         font-size: 6vw;
         color: #999;
-        background: transparent;
         outline: none;
       }
 
       #drop {
-        width: 6%;
-        height: 100%;
+        position: absolute;
+        top: 11vw;
+        transform: translate(0, -50%);
+        right: 0;
+        display: inline-block;
+        width: 4vw;
+        height: 14vw;
         background: transparent;
         outline: none;
-        transform: translate(8vw, 0);
 
         span {
           font-size: 4vw;
           color: #999;
         }
       }
-    }
 
-    .search-main {
-      position: absolute;
-      top: 21.4vw;
-      left: 7vw;
-      @include list();
+      .search-main {
+        position: absolute;
+        top: 22vw;
+        left: 7vw;
+        @include list(76%);
+      }
     }
 
     .drop-out {
