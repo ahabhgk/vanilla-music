@@ -2809,8 +2809,6 @@ var iconfont = __webpack_require__(74);
 
 
 
-/* eslint-disable prefer-arrow-callback */
-
  // 防止输入框弹出改变页面大小
 
 window.onload = function () {
@@ -2989,42 +2987,41 @@ function _searching() {
         switch (_context2.prev = _context2.next) {
           case 0:
             keywords = this.value;
-            console.log(keywords);
-            _context2.prev = 2;
-            _context2.next = 5;
+            _context2.prev = 1;
+            _context2.next = 4;
             return fetch("/search?keywords=".concat(keywords)).then(function (res) {
               return res.json();
             });
 
-          case 5:
+          case 4:
             data = _context2.sent;
             html = data.result.songs.map(function (song) {
               return "\n      <div class=\"song\" data-id=\"".concat(song.id, "\" data-name=\"").concat(song.name, "\" data-singer=\"").concat(song.artists[0].name, "\">\n        <div>\n          <span class=\"song-name\">").concat(song.name, "</span>\n          <span class=\"song-singer\">").concat(song.artists[0].name, "</span>\n        </div>\n        <button class=\"song-btn add-and-play-btn\"><span class=\"iconfont icon-right\"></span></button>\n        <button class=\"song-btn add-btn\"><span class=\"iconfont icon-plus\"></span></button>\n      </div>");
             });
             searchMain.innerHTML = html;
-            _context2.next = 15;
+            _context2.next = 14;
             break;
 
-          case 10:
-            _context2.prev = 10;
-            _context2.t0 = _context2["catch"](2);
+          case 9:
+            _context2.prev = 9;
+            _context2.t0 = _context2["catch"](1);
 
             if (keywords) {
-              _context2.next = 14;
+              _context2.next = 13;
               break;
             }
 
             return _context2.abrupt("return");
 
-          case 14:
+          case 13:
             searchMain.innerHTML = "\n      <div class=\"search-failed\">\n        <span class=\"iconfont icon-disconnect\"></span>\n        <span>\u641C\u7D22\u5931\u8D25\uFF0C\u8BF7\u5C1D\u8BD5\u91CD\u65B0\u641C\u7D22...\uD83D\uDE25</span>\n      </div>\n    ";
 
-          case 15:
+          case 14:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, this, [[2, 10]]);
+    }, _callee2, this, [[1, 9]]);
   }));
   return _searching.apply(this, arguments);
 }
@@ -3045,8 +3042,8 @@ listMain.addEventListener('touchstart', function (e) {
   } else if (e.target.parentElement.classList.contains('delete-btn')) {
     deleteMusic.call(this, e);
   }
-});
+}); //
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.1b688751.js.map
+//# sourceMappingURL=main.34f4d431.js.map

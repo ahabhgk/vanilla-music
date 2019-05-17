@@ -1,5 +1,6 @@
 import './style/style.scss'
 import './style/font/iconfont.css'
+import MusicList from './musicList.js'
 
 // 防止输入框弹出改变页面大小
 window.onload = function () {
@@ -94,16 +95,20 @@ firstPage.addEventListener('touchend', () => {
   tit.style.textShadow = 'rgba(0, 255, 0, 0.7) -5px -5px 0'
 })
 
+
+// 操作 MusicList
+const musicList = new MusicList()
+
 // 在歌单中删除音乐
 function deleteMusic(e) {
-  this.removeChild(e.target.parentElement.parentElement)
+  const removed = this.removeChild(e.target.parentElement.parentElement)
+  musicList.deleteMusic(removed.dataset.id)
 }
 
 // 在歌单中播放音乐
 async function playMusic(e) {
   const { id } = e.target.parentElement.parentElement.dataset
-  const data = await fetch(`/song/url?id=${id}`).then(res => res.json())
-  console.log(data)
+  // id 传给 audio component，audio component 进行 musicList.playMusic(id)
 }
 
 // 从搜索结果中添加音乐
@@ -120,6 +125,7 @@ function addMusic(e) {
       <button class="song-btn play-btn"><span class="iconfont icon-right"></span></button>
       <button class="song-btn delete-btn"><span class="iconfont icon-minus"></span></button>
     </div>`
+  musicList.addMusic(id, { id, name, singer })
 }
 
 // 从搜索结果中添加并播放音乐
@@ -145,7 +151,7 @@ function debounce(fn, wait) { // 防抖 util
 async function searching() {
   const keywords = this.value
   try {
-    const data = await fetch(`/search?keywords=${keywords}`).then(res => res.json())
+    const data = await fetch(`/api/search?keywords=${keywords}`).then(res => res.json())
     const html = data.result.songs.map(song => `
       <div class="song" data-id="${song.id}" data-name="${song.name}" data-singer="${song.artists[0].name}">
         <div>
