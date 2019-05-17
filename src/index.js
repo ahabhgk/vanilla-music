@@ -1,4 +1,3 @@
-/* eslint-disable prefer-arrow-callback */
 import './style/style.scss'
 import './style/font/iconfont.css'
 
@@ -164,15 +163,14 @@ async function searching() {
       <div class="search-failed">
         <span class="iconfont icon-disconnect"></span>
         <span>搜索失败，请尝试重新搜索...😥</span>
-      </div>
-    `
+      </div>`
   }
 }
 
 search.addEventListener('input', debounce(searching, 300))
 
 // 对搜索结果中添加音乐、添加并播放音乐进行事件委托
-searchMain.addEventListener('touchstart', function (e) {
+searchMain.addEventListener('touchstart', (e) => {
   if (e.target.parentElement.classList.contains('add-and-play-btn')) {
     addAndPlayMusic(e)
   } else if (e.target.parentElement.classList.contains('add-btn')) {
