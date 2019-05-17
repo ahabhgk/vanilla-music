@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 const CleanWebpackPugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
