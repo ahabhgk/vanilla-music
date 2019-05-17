@@ -14,7 +14,7 @@ module.exports = {
     hot: true, // 是否启用热更新
     open: false, // 是否自动打开浏览器
     proxy: { // 配置代理
-      '/api': 'http://localhost:8000',
+      '/api': 'http://localhost:8080',
     },
   },
   module: {
