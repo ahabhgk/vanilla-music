@@ -1,6 +1,9 @@
 import './style/style.scss'
 import './style/font/iconfont.css'
-import MusicList from './musicList.js'
+import MusicController from './musicList.js'
+import AudioComponent from './audio.js'
+
+customElements.define('h-audio', AudioComponent)
 
 // 防止输入框弹出改变页面大小
 window.onload = function () {
@@ -97,18 +100,25 @@ firstPage.addEventListener('touchend', () => {
 
 
 // 操作 MusicList
-const musicList = new MusicList()
+const player = document.querySelector('h-audio')
+const musicController = new MusicController(player)
 
 // 在歌单中删除音乐
 function deleteMusic(e) {
   const removed = this.removeChild(e.target.parentElement.parentElement)
-  musicList.deleteMusic(removed.dataset.id)
+  musicController.deleteMusic(removed.dataset.id)
 }
 
 // 在歌单中播放音乐
 async function playMusic(e) {
-  const { id } = e.target.parentElement.parentElement.dataset
-  // id 传给 audio component，audio component 进行 musicList.playMusic(id)
+  const data = e.target.parentElement.parentElement.dataset
+  const { id } = data
+  const requests = [fetch(`/api/song/detail?ids=${id}`), fetch(`/api/song/url?id=${id}`), fetch(`/api/lyric?id=${id}`)]
+  const [pic, url, lyrics] = await Promise.all(requests).then(res => res.json())
+  const musicData = {
+    ...data, pic, url, lyrics,
+  }
+  musicController.playMusic(id, musicData)
 }
 
 // 从搜索结果中添加音乐
@@ -125,7 +135,7 @@ function addMusic(e) {
       <button class="song-btn play-btn"><span class="iconfont icon-right"></span></button>
       <button class="song-btn delete-btn"><span class="iconfont icon-minus"></span></button>
     </div>`
-  musicList.addMusic(id, { id, name, singer })
+  musicController.addMusic(id, { id, name, singer })
 }
 
 // 从搜索结果中添加并播放音乐
