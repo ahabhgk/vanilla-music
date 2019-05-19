@@ -1,8 +1,11 @@
-import './style/style.scss'
-import './style/font/iconfont.css'
+import '../style/style.scss'
+import '../style/font/iconfont.css'
+import * as OfflinePluginRuntime from 'offline-plugin/runtime'
 import MusicController from './musicList.js'
 import AudioComponent from './audio.js'
 import Util from './controller.js'
+
+OfflinePluginRuntime.install()
 
 customElements.define('h-audio', AudioComponent)
 

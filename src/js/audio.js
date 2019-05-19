@@ -1,4 +1,4 @@
-import dot from './image/dot.png'
+import dot from '../image/dot.png'
 
 export default class AudioComponent extends HTMLElement {
   constructor() {
