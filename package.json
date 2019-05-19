@@ -1,6 +1,6 @@
 {
-  "name": "VanillaMusic",
-  "version": "3.10.1",
+  "name": "vanilla-music",
+  "version": "1.0.0",
   "description": "网易云音乐 NodeJS 版 API",
   "scripts": {
     "build": "npx webpack --env.production",
@@ -11,8 +11,6 @@
     "原乐",
     "网易云音乐nodejs"
   ],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.4.4",
     "@babel/runtime-corejs2": "^7.4.4"
@@ -21,6 +19,7 @@
     "@babel/core": "^7.4.4",
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
+    "app-manifest-webpack-plugin": "^1.2.0",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^2.0.2",
@@ -30,6 +29,7 @@
     "html-withimg-loader": "^0.1.16",
     "mini-css-extract-plugin": "^0.6.0",
     "node-sass": "^4.12.0",
+    "offline-plugin": "^5.0.7",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
@@ -39,5 +39,15 @@
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1",
     "webpack-merge": "^4.2.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahabhgk/VanillaMusic.git"
+  },
+  "author": "ahabhgk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ahabhgk/VanillaMusic/issues"
+  },
+  "homepage": "https://github.com/ahabhgk/VanillaMusic#readme"
 }
