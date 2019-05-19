@@ -2,6 +2,7 @@ import './style/style.scss'
 import './style/font/iconfont.css'
 import MusicController from './musicList.js'
 import AudioComponent from './audio.js'
+import Util from './controller.js'
 
 customElements.define('h-audio', AudioComponent)
 
@@ -10,122 +11,66 @@ window.onload = function () {
   document.body.style.height = `${window.screen.availHeight}px`
 }
 
+
 // 页面滚动切换
-function changeClass(page, removed, added) {
-  page.classList.remove(removed)
-  page.classList.add(added)
-}
-
-function rollUp() {
-  const prev = document.querySelector('.prev')
-  const active = document.querySelector('.active')
-  const next = document.querySelector('.next')
-
-  next.classList.add('hidden')
-  setTimeout(() => {
-    next.classList.remove('hidden')
-  }, 500)
-
-  changeClass(prev, 'prev', 'active')
-  changeClass(active, 'active', 'next')
-  changeClass(next, 'next', 'prev')
-}
-
-function rollDown() {
-  const prev = document.querySelector('.prev')
-  const active = document.querySelector('.active')
-  const next = document.querySelector('.next')
-
-  prev.classList.add('hidden')
-  setTimeout(() => {
-    prev.classList.remove('hidden')
-  }, 500)
-
-  changeClass(next, 'next', 'active')
-  changeClass(active, 'active', 'prev')
-  changeClass(prev, 'prev', 'next')
-}
-
 const upBtns = document.querySelectorAll('.up-btn')
 const downBtns = document.querySelectorAll('.down-btn')
 
 upBtns.forEach((btn) => {
-  btn.addEventListener('click', rollUp)
+  btn.addEventListener('touchstart', Util.rollUp)
 })
 downBtns.forEach((btn) => {
-  btn.addEventListener('click', rollDown)
+  btn.addEventListener('touchstart', Util.rollDown)
 })
+
 
 // 搜索栏的弹出和隐藏
 const drop = document.querySelector('#drop')
-const dropIcon = drop.querySelector('span')
-const searchWrap = document.querySelector('.search-wrap')
-let isDroped = false
 
-function dropSearch() {
-  if (isDroped) {
-    searchWrap.classList.remove('drop-out')
-    dropIcon.classList.remove('icon-doubleleft')
-    dropIcon.classList.add('icon-doubleright')
-    isDroped = !isDroped
-  } else {
-    searchWrap.classList.add('drop-out')
-    dropIcon.classList.remove('icon-doubleright')
-    dropIcon.classList.add('icon-doubleleft')
-    isDroped = !isDroped
-  }
-}
-
-drop.addEventListener('click', dropSearch)
+drop.addEventListener('touchstart', Util.dropSearch)
 
 // 标题的影子效果
 const firstPage = document.querySelector('#vanilla')
-const tit = document.querySelector('#vanilla>.tit')
-const WALK = 200
 
-function shadow(e) {
-  const { offsetWidth: width, offsetHeight: height } = firstPage
-  const { pageX: x, pageY: y } = e.targetTouches[0]
-
-  const xWalk = Math.round((x / width * WALK) - (WALK / 2))
-  const yWalk = Math.round((y / height * WALK) - (WALK / 2))
-
-  tit.style.textShadow = `${xWalk}px ${yWalk}px 0 rgba(0, 255, 0, 0.7)`
-}
-
-firstPage.addEventListener('touchmove', shadow)
-firstPage.addEventListener('touchend', () => {
-  tit.style.textShadow = 'rgba(0, 255, 0, 0.7) -5px -5px 0'
-})
+firstPage.addEventListener('touchmove', Util.shadow)
+firstPage.addEventListener('touchend', Util.restoreShadow)
 
 
 // 操作 MusicList
 const player = document.querySelector('h-audio')
+const search = document.querySelector('#search')
+const searchMain = document.querySelector('.search-main')
+const listMain = document.querySelector('.list-main')
 const musicController = new MusicController(player)
+
+search.addEventListener('input', Util.debouncedSearch)
+
+
+// api
+const api = 'https://v1.itooi.cn/netease'
 
 // 在歌单中删除音乐
 function deleteMusic(e) {
   const removed = this.removeChild(e.target.parentElement.parentElement)
+
   musicController.deleteMusic(removed.dataset.id)
 }
 
 // 在歌单中播放音乐
-async function playMusic(e) {
-  const data = e.target.parentElement.parentElement.dataset
-  const { id } = data
-  const requests = [fetch(`/api/song/detail?ids=${id}`), fetch(`/api/song/url?id=${id}`), fetch(`/api/lyric?id=${id}`)]
-  const [pic, url, lyrics] = await Promise.all(requests).then(res => res.json())
-  const musicData = {
-    ...data, pic, url, lyrics,
-  }
-  musicController.playMusic(id, musicData)
+function playMusic(e) {
+  const { id } = e.target.parentElement.parentElement.dataset
+
+  musicController.playMusic(id)
 }
 
 // 从搜索结果中添加音乐
-const listMain = document.querySelector('.list-main')
-
-function addMusic(e) {
+async function addMusic(e) {
   const { id, name, singer } = e.target.parentElement.parentElement.dataset
+
+  const url = await fetch(`${api}/url?id=${id}&quality=flac&isRedirect=0`).then(res => res.json()).then(json => json.data)
+  const pic = await fetch(`${api}/pic?id=${id}&isRedirect=0`).then(res => res.json()).then(json => json.data)
+  const lyrics = await fetch(`${api}/lrc?id=${id}`).then(res => res.text())
+
   listMain.innerHTML += `
     <div class="song" data-id="${id}">
       <div>
@@ -135,55 +80,18 @@ function addMusic(e) {
       <button class="song-btn play-btn"><span class="iconfont icon-right"></span></button>
       <button class="song-btn delete-btn"><span class="iconfont icon-minus"></span></button>
     </div>`
-  musicController.addMusic(id, { id, name, singer })
+
+  musicController.addMusic({
+    id, name, singer, url, pic, lyrics,
+  })
 }
 
 // 从搜索结果中添加并播放音乐
-function addAndPlayMusic(e) {
-  addMusic(e)
+async function addAndPlayMusic(e) {
+  await addMusic(e)
   playMusic(e)
 }
 
-// 搜索框进行搜索音乐
-const search = document.querySelector('#search')
-const searchMain = document.querySelector('.search-main')
-
-function debounce(fn, wait) { // 防抖 util
-  let timeout
-  return function (...arg) {
-    clearTimeout(timeout)
-    timeout = setTimeout(() => {
-      fn.apply(this, arg)
-    }, wait)
-  }
-}
-
-async function searching() {
-  const keywords = this.value
-  try {
-    const data = await fetch(`/api/search?keywords=${keywords}`).then(res => res.json())
-    const html = data.result.songs.map(song => `
-      <div class="song" data-id="${song.id}" data-name="${song.name}" data-singer="${song.artists[0].name}">
-        <div>
-          <span class="song-name">${song.name}</span>
-          <span class="song-singer">${song.artists[0].name}</span>
-        </div>
-        <button class="song-btn add-and-play-btn"><span class="iconfont icon-right"></span></button>
-        <button class="song-btn add-btn"><span class="iconfont icon-plus"></span></button>
-      </div>`)
-    searchMain.innerHTML = html
-  } catch (err) {
-    if (!keywords) return
-
-    searchMain.innerHTML = `
-      <div class="search-failed">
-        <span class="iconfont icon-disconnect"></span>
-        <span>搜索失败，请尝试重新搜索...😥</span>
-      </div>`
-  }
-}
-
-search.addEventListener('input', debounce(searching, 300))
 
 // 对搜索结果中添加音乐、添加并播放音乐进行事件委托
 searchMain.addEventListener('touchstart', (e) => {
