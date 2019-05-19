@@ -65,7 +65,7 @@ const commonConfig = {
         theme_color: '#fff',
         display: 'standalone',
         orientation: 'portrait',
-        start_url: '/',
+        start_url: 'https://ahabhgk.top/vanilla-music/',
         icons: {
           android: true,
           appleIcon: true,
