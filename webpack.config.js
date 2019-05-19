@@ -71,6 +71,7 @@ const commonConfig = {
       ServiceWorker: {
         output: './sw.js', // 输出目录
         publicPath: '/sw.js', // sw.js 加载路径
+        scope: '/vanilla-music/', // 作用域（此处有坑）
         minify: true, // 开启压缩
         events: true, // 当sw状态改变时候发射对应事件
       },

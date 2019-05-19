@@ -1063,7 +1063,9 @@ function install(options) {
   options || (options = {});
 
   if (hasSW()) {
-    var registration = navigator.serviceWorker.register("sw.js", {});
+    var registration = navigator.serviceWorker.register("sw.js", {
+      scope: "/vanilla-music/"
+    });
 
     var handleUpdating = function (registration) {
       var sw = registration.installing || registration.waiting;
@@ -1184,7 +1186,7 @@ function install(options) {
 
 function applyUpdate(callback, errback) {
   if (hasSW()) {
-    navigator.serviceWorker.getRegistration().then(function (registration) {
+    navigator.serviceWorker.getRegistration("/vanilla-music/").then(function (registration) {
       if (!registration || !registration.waiting) {
         errback && errback();
         return;
@@ -1201,7 +1203,7 @@ function applyUpdate(callback, errback) {
 
 function update() {
   if (hasSW()) {
-    navigator.serviceWorker.getRegistration().then(function (registration) {
+    navigator.serviceWorker.getRegistration("/vanilla-music/").then(function (registration) {
       if (!registration) return;
       return registration.update();
     });
@@ -5148,4 +5150,4 @@ listMain.addEventListener('touchstart', function (e) {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.f0ca18de.js.map
+//# sourceMappingURL=main.bd8579c8.js.map
