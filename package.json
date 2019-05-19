@@ -4,8 +4,7 @@
   "description": "网易云音乐 NodeJS 版 API",
   "scripts": {
     "build": "npx webpack --env.production",
-    "dev": "npx webpack-dev-server --open",
-    "deploy": "git add dist && git commit -m 'Initial dist subtree commit' && git subtree push --prefix dist origin gh-pages"
+    "dev": "npx webpack-dev-server --open"
   },
   "keywords": [
     "极简的音乐播放器",
