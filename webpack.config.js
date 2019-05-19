@@ -1,10 +1,10 @@
 const path = require('path')
 const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const devConfig = require('./webpack.dev.js')
-const prodConfig = require('./webpack.prod.js')
 const OfflinePlugin = require('offline-plugin')
 const AppManifestWebpackPlugin = require('app-manifest-webpack-plugin')
+const devConfig = require('./webpack.dev.js')
+const prodConfig = require('./webpack.prod.js')
 
 const commonConfig = {
   entry: './src/js/index.js',
@@ -51,7 +51,31 @@ const commonConfig = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
-    new OfflinePlugin(),
+    new OfflinePlugin({
+      responseStrategy: 'cache-first', // 缓存优先
+      AppCache: false, // 不启用appCache
+      safeToUseOptionalCaches: true, // Removes warning for about `additional` section usage
+      autoUpdate: true, // 自动更新
+      caches: { // webpack打包后需要换的文件正则匹配
+        main: [
+          '**/*.js',
+          '**/*.css',
+          /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+          /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        ],
+        additional: [
+          ':externals:',
+        ],
+      },
+      excludes: ['**/.*', '**/*.map', '**/*.gz'], // 需要过滤的文件
+      ServiceWorker: {
+        output: './static/sw.js', // 输出目录
+        publicPath: '/static/sw.js', // sw.js 加载路径
+        scope: '/', // 作用域（此处有坑）
+        minify: true, // 开启压缩
+        events: true, // 当sw状态改变时候发射对应事件
+      },
+    }),
     new AppManifestWebpackPlugin({
       logo: './src/image/logo.png',
       persistentCache: false,

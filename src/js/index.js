@@ -5,7 +5,17 @@ import MusicController from './musicList.js'
 import AudioComponent from './audio.js'
 import Util from './controller.js'
 
-OfflinePluginRuntime.install()
+OfflinePluginRuntime.install({
+  // 监听sw事件，当更新ready的时候，调用applyUpdate以跳过等待，新的sw立即接替老的sw
+  onUpdateReady: () => {
+    console.log('SW Event:', 'onUpdateReady')
+    OfflinePluginRuntime.applyUpdate()
+  },
+  onUpdated: () => {
+    console.log('SW Event:', 'onUpdated')
+    window.swUpdate = true
+  },
+})
 
 customElements.define('h-audio', AudioComponent)
 
