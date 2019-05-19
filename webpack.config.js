@@ -69,9 +69,8 @@ const commonConfig = {
       },
       excludes: ['**/.*', '**/*.map', '**/*.gz'], // 需要过滤的文件
       ServiceWorker: {
-        output: './static/sw.js', // 输出目录
-        publicPath: '/static/sw.js', // sw.js 加载路径
-        scope: '/', // 作用域（此处有坑）
+        output: './sw.js', // 输出目录
+        publicPath: '/sw.js', // sw.js 加载路径
         minify: true, // 开启压缩
         events: true, // 当sw状态改变时候发射对应事件
       },
