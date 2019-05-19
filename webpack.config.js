@@ -55,6 +55,7 @@ const commonConfig = {
     new AppManifestWebpackPlugin({
       logo: './src/image/logo.png',
       persistentCache: false,
+      prefix: '/vanilla-music/',
       output: '/img/icons-[hash:8]/',
       config: {
         appName: 'vanilla-music',
