@@ -3,9 +3,11 @@ const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const devConfig = require('./webpack.dev.js')
 const prodConfig = require('./webpack.prod.js')
+const OfflinePlugin = require('offline-plugin')
+const AppManifestWebpackPlugin = require('app-manifest-webpack-plugin')
 
 const commonConfig = {
-  entry: './src/index.js',
+  entry: './src/js/index.js',
   output: {
     path: path.resolve('dist'),
   },
@@ -48,6 +50,28 @@ const commonConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
+    }),
+    new OfflinePlugin(),
+    new AppManifestWebpackPlugin({
+      logo: './src/image/logo.png',
+      persistentCache: false,
+      output: '/img/icons-[hash:8]/',
+      config: {
+        appName: 'vanilla-music',
+        appDescription: '原乐是一个功能简单，设计有趣，交互方式独特的极简风格音乐播放器。',
+        developerName: 'ahabhgk',
+        developerURL: 'ahabhgk.top',
+        background: '#fff',
+        theme_color: '#fff',
+        display: 'standalone',
+        orientation: 'portrait',
+        start_url: '/',
+        icons: {
+          android: true,
+          appleIcon: true,
+          appleStartup: true,
+        },
+      },
     }),
   ],
 }
