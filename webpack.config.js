@@ -2,7 +2,6 @@ const path = require('path')
 const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
-const AppManifestWebpackPlugin = require('app-manifest-webpack-plugin')
 const devConfig = require('./webpack.dev.js')
 const prodConfig = require('./webpack.prod.js')
 
@@ -52,28 +51,6 @@ const commonConfig = {
       template: './public/index.html',
     }),
     new OfflinePlugin(),
-    new AppManifestWebpackPlugin({
-      logo: './src/image/logo.png',
-      persistentCache: false,
-      prefix: '/vanilla-music/',
-      output: '/img/icons-[hash:8]/',
-      config: {
-        appName: 'vanilla-music',
-        appDescription: '原乐是一个功能简单，设计有趣，交互方式独特的极简风格音乐播放器。',
-        developerName: 'ahabhgk',
-        developerURL: 'ahabhgk.top',
-        background: '#fff',
-        theme_color: '#fff',
-        display: 'standalone',
-        orientation: 'portrait',
-        start_url: 'https://ahabhgk.top/vanilla-music/',
-        icons: {
-          android: true,
-          appleIcon: true,
-          appleStartup: true,
-        },
-      },
-    }),
   ],
 }
 
