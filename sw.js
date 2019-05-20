@@ -27,31 +27,29 @@ self.addEventListener('activate', (e) => {
   self.clients.claim()
 })
 
-async function cacheFirst(req) {
-  const cache = await caches.open(cacheName)
-  const cached = await cache.match(req)
-  return cached || fetch(req)
-}
+// async function cacheFirst(req) {
+//   const cache = await caches.open(cacheName)
+//   const cached = await cache.match(req)
+//   return cached || fetch(req)
+// }
 
-async function networkAndCache(req) {
-  const cache = caches.open(cacheName)
-  try {
-    const fresh = await fetch(req)
-    await cache.put(req, fresh.clone())
-    return fresh
-  } catch (err) {
-    const cached = await caches.match(req)
-    return cached
-  }
-}
+// async function networkAndCache(req) {
+//   const cache = caches.open(cacheName)
+//   try {
+//     const fresh = await fetch(req)
+//     await cache.put(req, fresh.clone())
+//     return fresh
+//   } catch (err) {
+//     const cached = await caches.match(req)
+//     return cached
+//   }
+// }
 
-self.addEventListener('fetch', (e) => {
-  const req = e.request
-  const url = new URL(req.url)
-
-  if (url.origin === location.origin) {
-    e.respondWith(cacheFirst(req))
-  } else {
-    e.respondWith(networkAndCache(req))
-  }
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then(resp => resp || fetch(event.request).then(response => caches.open('v1').then((cache) => {
+      cache.put(event.request, response.clone())
+      return response
+    }))),
+  )
 })
