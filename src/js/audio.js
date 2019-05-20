@@ -67,7 +67,7 @@ export default class AudioComponent extends HTMLElement {
       }
       .lyrics-wrap {
         width: 70vw;
-        height: 85%;
+        height: 80%;
         background: transparent;
         transform: translate(0, -5vw);
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
