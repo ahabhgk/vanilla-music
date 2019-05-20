@@ -40,7 +40,7 @@ async function networkAndCache(req) {
     await cache.put(req, fresh.clone())
     return fresh
   } catch (err) {
-    const cached = await cache.match(req)
+    const cached = await caches.match(req)
     return cached
   }
 }
