@@ -27,7 +27,7 @@ self.addEventListener('activate', () => {
 
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then(resp => resp || fetch(event.request).then(response => caches.open('v1').then((cache) => {
+    caches.match(event.request).then(resp => resp || fetch(event.request).then(response => caches.open(cacheName).then((cache) => {
       cache.put(event.request, response.clone())
       return response
     }))),
