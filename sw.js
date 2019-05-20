@@ -12,9 +12,6 @@ const staticAssets = [
   './src/style/style.css',
   './src/style/font/webfont.woff',
   './src/style/font/iconfont.css',
-  './src/style/font/iconfont.js',
-  './src/style/font/iconfont.svg',
-  './src/style/font/iconfont.woff',
 ]
 
 self.addEventListener('install', async (e) => {
@@ -26,24 +23,6 @@ self.addEventListener('install', async (e) => {
 self.addEventListener('activate', (e) => {
   self.clients.claim()
 })
-
-// async function cacheFirst(req) {
-//   const cache = await caches.open(cacheName)
-//   const cached = await cache.match(req)
-//   return cached || fetch(req)
-// }
-
-// async function networkAndCache(req) {
-//   const cache = caches.open(cacheName)
-//   try {
-//     const fresh = await fetch(req)
-//     await cache.put(req, fresh.clone())
-//     return fresh
-//   } catch (err) {
-//     const cached = await caches.match(req)
-//     return cached
-//   }
-// }
 
 self.addEventListener('fetch', (event) => {
   event.respondWith(
