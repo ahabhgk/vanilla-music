@@ -69,10 +69,19 @@ html, body {
     animation: arrowDown 3s infinite;
   }
 
+  .prev {
+    transform: translate(0, -100%);
+  }
+
+  .next {
+    transform: translate(0, 100%);
+  }
+
   .page {
     width: 100vw;
     height: 100%;
     position: absolute;
+    transition: all 1s;
     background: #f2f2f2;
     display: flex;
     flex-direction: column;
@@ -81,14 +90,6 @@ html, body {
 
   .hidden {
     display: none;
-  }
-
-  .prev {
-    transform: translate(0, -100%);
-  }
-
-  .next {
-    transform: translate(0, 100%);
   }
 
   @mixin list($height) {
