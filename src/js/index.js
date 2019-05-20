@@ -17,6 +17,7 @@ async function registerSW() {
 // 防止输入框弹出改变页面大小
 window.addEventListener('load', () => {
   document.body.style.height = `${document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight}px`
+  document.querySelectorAll('.page').forEach(page => page.style.transition = 'all 1s')
   registerSW()
 })
 
