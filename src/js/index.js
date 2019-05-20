@@ -1,4 +1,3 @@
-import MusicController from './musicList.js'
 import AudioComponent from './audio.js'
 import Util from './controller.js'
 
@@ -51,7 +50,6 @@ const player = document.querySelector('h-audio')
 const search = document.querySelector('#search')
 const searchMain = document.querySelector('.search-main')
 const listMain = document.querySelector('.list-main')
-const musicController = new MusicController(player)
 
 search.addEventListener('input', Util.debouncedSearch)
 
@@ -63,37 +61,41 @@ const api = 'https://v1.itooi.cn/netease'
 function deleteMusic(e) {
   const removed = this.removeChild(e.target.parentElement.parentElement)
 
-  musicController.deleteMusic(removed.dataset.id)
+  player.musicList.deleteMusic(removed.dataset.id)
 }
 
 // 在歌单中播放音乐
 function playMusic(e) {
   const { id } = e.target.parentElement.parentElement.dataset
 
-  musicController.playMusic(id)
+  player.playMusic(id)
 }
 
 // 从搜索结果中添加音乐
 async function addMusic(e) {
   const { id, name, singer } = e.target.parentElement.parentElement.dataset
 
-  const url = await fetch(`${api}/url?id=${id}&quality=flac&isRedirect=0`).then(res => res.json()).then(json => json.data)
-  const pic = await fetch(`${api}/pic?id=${id}&isRedirect=0`).then(res => res.json()).then(json => json.data)
-  const lyrics = await fetch(`${api}/lrc?id=${id}`).then(res => res.text())
+  try {
+    const url = await fetch(`${api}/url?id=${id}&isRedirect=0`).then(res => res.json()).then(json => json.data)
+    const pic = await fetch(`${api}/pic?id=${id}&isRedirect=0`).then(res => res.json()).then(json => json.data)
+    const lyrics = await fetch(`${api}/lrc?id=${id}`).then(res => res.text())
 
-  listMain.innerHTML += `
-    <div class="song" data-id="${id}">
-      <div>
-        <span class="song-name">${name}</span>
-        <span class="song-singer">${singer}</span>
-      </div>
-      <button class="song-btn play-btn"><span class="iconfont icon-right"></span></button>
-      <button class="song-btn delete-btn"><span class="iconfont icon-minus"></span></button>
-    </div>`
+    listMain.innerHTML += `
+      <div class="song" data-id="${id}">
+        <div>
+          <span class="song-name">${name}</span>
+          <span class="song-singer">${singer}</span>
+        </div>
+        <button class="song-btn play-btn"><span class="iconfont icon-right"></span></button>
+        <button class="song-btn delete-btn"><span class="iconfont icon-minus"></span></button>
+      </div>`
 
-  musicController.addMusic({
-    id, name, singer, url, pic, lyrics,
-  })
+    player.musicList.addMusic({
+      id, name, singer, url, pic, lyrics,
+    })
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 // 从搜索结果中添加并播放音乐

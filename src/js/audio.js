@@ -1,32 +1,74 @@
+import MusicList from './musicList.js'
+
 export default class AudioComponent extends HTMLElement {
   constructor() {
     super()
 
-    this.playingUrl = this.getAttribute('playing-url')
-    this.playingSong = this.getAttribute('playing-song')
-    this.playingSinger = this.getAttribute('playing-singer')
-    this.playingPic = this.getAttribute('playing-pic')
-    this.playingLyrics = this.getAttribute('playing-lyrics')
+    this.musicList = new MusicList()
+    this.index = 0
 
     this.audio = document.createElement('audio')
     this.songTit = document.createElement('div')
     this.songSinger = document.createElement('span')
     this.songBg = document.createElement('div')
     this.lyrics = document.createElement('div')
+    this.progress = document.createElement('div')
     this.dot = document.createElement('div')
   }
 
   updateProgress() {
+    const len = this.progress.offsetWidth
+    const rate = this.audio.currentTime / this.audio.duration
+    const offset = rate * len
+    this.dot.style.transform = `translate(${offset - 19}px, 0)`
+  }
 
+  dropDot = (e) => {
+    const len = this.progress.offsetWidth
+    const left = e.targetTouches[0].pageX - this.progress.getBoundingClientRect().left + document.body.scrollLeft
+    const rate = left / len
+    if (rate <= 1 && rate >= 0) {
+      const offset = rate * len
+      this.audio.currentTime = rate * this.audio.duration
+      console.log(offset)
+      this.dot.style.transform = `translate(${offset - 19}px, 0)`
+    }
+  }
+
+  play() {
+    const {
+      name, singer, url, pic, lyrics,
+    } = this.musicList[this.index]
+
+    this.setAttribute('playing-name', name)
+    this.setAttribute('playing-singer', singer)
+    this.setAttribute('playing-url', url)
+    this.setAttribute('playing-pic', pic)
+    this.setAttribute('playing-lyrics', lyrics)
+  }
+
+  playMusic(id) {
+    this.index = this.musicList.findMusicIndexById(id)
+    this.play()
+  }
+
+  playNext() {
+    (++this.index >= this.musicList.length) && (this.index = 0)
+    this.play()
+  }
+
+  playPrev() {
+    (--this.index < 0) && (this.index = this.musicList.length - 1)
+    this.play()
   }
 
   render() {
     const shadow = this.attachShadow({ mode: 'open' })
 
-    this.songTit.innerText = this.playingSong
+    this.songTit.innerText = this.getAttribute('playing-name')
     this.songTit.classList.add('song-tit')
 
-    this.songSinger.innerText = this.playingSinger
+    this.songSinger.innerText = this.getAttribute('playing-singer')
     this.songSinger.classList.add('song-singer')
 
     const lyricsWrap = document.createElement('div')
@@ -37,17 +79,16 @@ export default class AudioComponent extends HTMLElement {
     lyricsWrap.appendChild(this.songBg)
     lyricsWrap.appendChild(this.lyrics)
 
-    const progress = document.createElement('div')
-    progress.classList.add('progress')
+    this.progress.classList.add('progress')
     this.dot.classList.add('dot')
-    progress.appendChild(this.dot)
+    this.progress.appendChild(this.dot)
 
     const wraper = document.createElement('div')
     wraper.classList.add('player-main')
     wraper.appendChild(this.songTit)
     wraper.appendChild(this.songSinger)
     wraper.appendChild(lyricsWrap)
-    wraper.appendChild(progress)
+    wraper.appendChild(this.progress)
 
     const style = document.createElement('style')
     style.textContent = `
@@ -95,10 +136,10 @@ export default class AudioComponent extends HTMLElement {
         position: relative;
         width: 70vw;
         height: 4px;
+        border-radius: 2px;
         background: #1296db;
         transform: translate(0, 5vw);
       }
-
       .dot {
         background: url(./src/img/dot.png) no-repeat;
         background-size: cover;
@@ -106,8 +147,7 @@ export default class AudioComponent extends HTMLElement {
         height: 38px;
         position: absolute;
         top: -19px;
-        left: 0%;
-        transform: translate(-19px, 0);
+        transfrom: translate(-19px, 0);
         z-index: 1;
       }`
 
@@ -116,11 +156,49 @@ export default class AudioComponent extends HTMLElement {
   }
 
   bindEvent() {
-
+    this.audio.addEventListener('canplay', function () {
+      this.play()
+    })
+    this.audio.addEventListener('ended', () => {
+      this.playNext()
+    })
+    this.audio.addEventListener('timeupdate', this.updateProgress.bind(this))
+    this.dot.addEventListener('touchstart', () => {
+      this.dot.addEventListener('touchmove', this.dropDot)
+      this.dot.addEventListener('touchend', () => {
+        this.dot.removeEventListener('touchmove', this.dropDot)
+      })
+    })
   }
 
   connectedCallback() {
     this.render()
     this.bindEvent()
+  }
+
+  static get observedAttributes() { return ['playing-name', 'playing-singer', 'playing-url', 'playing-pic', 'playing-lyrics'] }
+
+  attributeChangedCallback(attr, oldVal, newVal) {
+    switch (attr) {
+    case 'playing-name':
+      this.songTit.innerText = newVal
+    case 'playing-singer':
+      this.songSinger.innerText = newVal
+    case 'playing-url':
+      try {
+        this.audio.src = newVal
+      } catch (err) {
+        console.log(err)
+      }
+    case 'playing-pic':
+      try {
+        this.songBg.style.background = `url(${newVal}) center/cover no-repeat`
+        this.songBg.innerText = ''
+      } catch (err) {
+        console.log(err)
+      }
+    case 'playing-lyrics':
+      this.lyrics.innerHTML = `${newVal}`
+    }
   }
 }

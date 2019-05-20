@@ -9,10 +9,7 @@ html, body {
 
 @font-face {
   font-family: 'webfont';
-  src: url("./font/webfont.eot");
-  /* IE9 */
-  src: url("./font/webfont.eot?#iefix") format("embedded-opentype"), url("./font/webfont.woff") format("woff"), url("./font/webfont.ttf") format("truetype"), url("./font/webfont.svg#webfont") format("svg");
-  /* iOS 4.1- */ }
+  src: url("./font/webfont.woff") format("woff"), url("./font/webfont.ttf") format("truetype"); }
 .web-font {
   font-family: "webfont" !important;
   font-size: 16px;
@@ -59,7 +56,6 @@ html, body {
     width: 100vw;
     height: 100%;
     position: absolute;
-    transition: all 1s;
     background: #f2f2f2;
     display: flex;
     flex-direction: column;
@@ -132,7 +128,7 @@ html, body {
     .container #vanilla .search-wrap {
       font-size: 0;
       width: 100vw;
-      height: 100%;
+      height: 90%;
       z-index: 2;
       position: absolute;
       transform: translate(-96vw, 0);

@@ -11,16 +11,17 @@ const staticAssets = [
   './src/js/musicList.js',
   './src/style/style.css',
   './src/style/font/webfont.woff',
+  './src/style/font/webfont.ttf',
   './src/style/font/iconfont.css',
 ]
 
-self.addEventListener('install', async (e) => {
+self.addEventListener('install', async () => {
   const cache = await caches.open(cacheName)
   await cache.addAll(staticAssets)
   return self.skipWaiting()
 })
 
-self.addEventListener('activate', (e) => {
+self.addEventListener('activate', () => {
   self.clients.claim()
 })
 
