@@ -1,5 +1,3 @@
-import dot from '../image/dot.png'
-
 export default class AudioComponent extends HTMLElement {
   constructor() {
     super()
@@ -102,7 +100,7 @@ export default class AudioComponent extends HTMLElement {
       }
 
       .dot {
-        background: url(${dot}) no-repeat;
+        background: url(./src/img/dot.png) no-repeat;
         background-size: cover;
         width: 38px;
         height: 38px;

@@ -1,18 +1,25 @@
-import '../style/style.scss'
-import '../style/font/iconfont.css'
-import * as OfflinePluginRuntime from 'offline-plugin/runtime'
 import MusicController from './musicList.js'
 import AudioComponent from './audio.js'
 import Util from './controller.js'
 
-OfflinePluginRuntime.install()
-
 customElements.define('h-audio', AudioComponent)
 
-// 防止输入框弹出改变页面大小
-window.onload = function () {
-  document.body.style.height = `${window.screen.availHeight}px`
+async function registerSW() {
+  if ('serviceWorker' in navigator) {
+    try {
+      await navigator.serviceWorker.register('./sw.js')
+    } catch (err) {
+      console.log(`SW registration failed: ${err}`)
+    }
+  }
 }
+
+// 防止输入框弹出改变页面大小
+window.addEventListener('load', () => {
+  document.body.style.height = `${window.screen.availHeight}px`
+
+  registerSW()
+})
 
 
 // 页面滚动切换
