@@ -16,8 +16,10 @@ async function registerSW() {
 
 // 防止输入框弹出改变页面大小
 window.addEventListener('load', () => {
+alert(window.screen.availHeight)
+alert(document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight)
+alert(document.body.scrollHeight)
   document.body.style.height = `${window.screen.availHeight}px`
-
   registerSW()
 })
 
