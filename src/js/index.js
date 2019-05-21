@@ -122,3 +122,6 @@ listMain.addEventListener('touchstart', function (e) {
     deleteMusic.call(this, e)
   }
 })
+
+
+console.log(fetch('https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg?is_xml=0&key=hah&g_tk=385294201&hostUin=0&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0htt').then(res => res.json()))
