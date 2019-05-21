@@ -14,9 +14,12 @@ export default class AudioComponent extends HTMLElement {
     this.lyrics = document.createElement('div')
     this.progress = document.createElement('div')
     this.dot = document.createElement('div')
+    this.dot.isDroping = false
   }
 
   updateProgress() {
+    if (this.dot.isDroping) return
+
     const len = this.progress.offsetWidth
     const rate = this.audio.currentTime / this.audio.duration
     const offset = rate * len
@@ -24,13 +27,19 @@ export default class AudioComponent extends HTMLElement {
   }
 
   dropDot = (e) => {
+    console.log(this.dot.isDroping)
+    if (!this.dot.isDroping) return
+
     const len = this.progress.offsetWidth
     const left = e.targetTouches[0].pageX - this.progress.getBoundingClientRect().left + document.body.scrollLeft
     const rate = left / len
     if (rate <= 1 && rate >= 0) {
       const offset = rate * len
-      this.audio.currentTime = rate * this.audio.duration
-      console.log(offset)
+      const time = rate * this.audio.duration
+      console.log(time)
+      // debugger
+      this.audio.currentTime = time
+      console.log(this.audio.currentTime)
       this.dot.style.transform = `translate(${offset - 19}px, 0)`
     }
   }
@@ -147,7 +156,7 @@ export default class AudioComponent extends HTMLElement {
         height: 38px;
         position: absolute;
         top: -19px;
-        transfrom: translate(-19px, 0);
+        transform: translate(-19px, 0);
         z-index: 1;
       }`
 
@@ -163,11 +172,12 @@ export default class AudioComponent extends HTMLElement {
       this.playNext()
     })
     this.audio.addEventListener('timeupdate', this.updateProgress.bind(this))
-    this.dot.addEventListener('touchstart', () => {
-      this.dot.addEventListener('touchmove', this.dropDot)
-      this.dot.addEventListener('touchend', () => {
-        this.dot.removeEventListener('touchmove', this.dropDot)
-      })
+    this.dot.addEventListener('touchstart', function () {
+      this.isDroping = true
+    })
+    this.dot.addEventListener('touchmove', this.dropDot)
+    this.dot.addEventListener('touchend', function () {
+      this.isDroping = false
     })
   }
 

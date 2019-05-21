@@ -76,7 +76,7 @@ async function addMusic(e) {
   const { id, name, singer } = e.target.parentElement.parentElement.dataset
 
   try {
-    const url = await fetch(`${api}/url?id=${id}&isRedirect=0`).then(res => res.json()).then(json => json.data)
+    const url = await fetch(`${api}/url?id=${id}&quality=flac&isRedirect=0`).then(res => res.json()).then(json => json.data)
     const pic = await fetch(`${api}/pic?id=${id}&isRedirect=0`).then(res => res.json()).then(json => json.data)
     const lyrics = await fetch(`${api}/lrc?id=${id}`).then(res => res.text())
 
