@@ -26,24 +26,6 @@ export default class AudioComponent extends HTMLElement {
     this.dot.style.transform = `translate(${offset - 19}px, 0)`
   }
 
-  dropDot = (e) => {
-    console.log(this.dot.isDroping)
-    if (!this.dot.isDroping) return
-
-    const len = this.progress.offsetWidth
-    const left = e.targetTouches[0].pageX - this.progress.getBoundingClientRect().left + document.body.scrollLeft
-    const rate = left / len
-    if (rate <= 1 && rate >= 0) {
-      const offset = rate * len
-      const time = rate * this.audio.duration
-      console.log(time)
-      // debugger
-      this.audio.currentTime = time
-      console.log(this.audio.currentTime)
-      this.dot.style.transform = `translate(${offset - 19}px, 0)`
-    }
-  }
-
   play() {
     const {
       name, singer, url, pic, lyrics,
@@ -175,7 +157,19 @@ export default class AudioComponent extends HTMLElement {
     this.dot.addEventListener('touchstart', function () {
       this.isDroping = true
     })
-    this.dot.addEventListener('touchmove', this.dropDot)
+    this.dot.addEventListener('touchmove', (e) => {
+      if (!this.dot.isDroping) return
+
+      const len = this.progress.offsetWidth
+      const left = e.targetTouches[0].pageX - this.progress.getBoundingClientRect().left + document.body.scrollLeft
+      const rate = left / len
+      if (rate <= 1 && rate >= 0) {
+        const offset = rate * len
+        const time = rate * this.audio.duration
+        this.audio.currentTime = time
+        this.dot.style.transform = `translate(${offset - 19}px, 0)`
+      }
+    })
     this.dot.addEventListener('touchend', function () {
       this.isDroping = false
     })
