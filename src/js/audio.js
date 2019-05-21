@@ -28,14 +28,14 @@ export default class AudioComponent extends HTMLElement {
 
   play() {
     const {
-      name, singer, url, pic, lyrics,
+      name, singer, url, pic, lrc,
     } = this.musicList[this.index]
 
     this.setAttribute('playing-name', name)
     this.setAttribute('playing-singer', singer)
     this.setAttribute('playing-url', url)
     this.setAttribute('playing-pic', pic)
-    this.setAttribute('playing-lyrics', lyrics)
+    this.setAttribute('playing-lrc', lrc)
   }
 
   playMusic(id) {
@@ -93,9 +93,15 @@ export default class AudioComponent extends HTMLElement {
       .song-tit {
         font-size: 8vw;
         transform: translate(0, -6vw);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .song-singer {
         transform: translate(0, -7vw);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .lyrics-wrap {
         width: 70vw;
@@ -186,14 +192,17 @@ export default class AudioComponent extends HTMLElement {
     switch (attr) {
     case 'playing-name':
       this.songTit.innerText = newVal
+      break
     case 'playing-singer':
       this.songSinger.innerText = newVal
+      break
     case 'playing-url':
       try {
         this.audio.src = newVal
       } catch (err) {
         console.log(err)
       }
+      break
     case 'playing-pic':
       try {
         this.songBg.style.background = `url(${newVal}) center/cover no-repeat`
@@ -201,8 +210,11 @@ export default class AudioComponent extends HTMLElement {
       } catch (err) {
         console.log(err)
       }
-    case 'playing-lyrics':
+      break
+    case 'playing-lrc':
+      console.log(newVal)
       this.lyrics.innerHTML = `${newVal}`
+      break
     }
   }
 }

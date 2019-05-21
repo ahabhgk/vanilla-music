@@ -55,7 +55,7 @@ search.addEventListener('input', Util.debouncedSearch)
 
 
 // api
-const api = 'https://v1.itooi.cn/tencent'
+const api = 'https://music.niubishanshan.top/api/v2/music'
 
 // 在歌单中删除音乐
 function deleteMusic(e) {
@@ -73,15 +73,17 @@ function playMusic(e) {
 
 // 从搜索结果中添加音乐
 async function addMusic(e) {
-  const { id, name, singer } = e.target.parentElement.parentElement.dataset
+  const {
+    mid, name, singer, albummid, singermid, songid,
+  } = e.target.parentElement.parentElement.dataset
 
   try {
-    const url = await fetch(`${api}/url?id=${id}&quality=flac&isRedirect=0`).then(res => res.json()).then(json => json.data)
-    const pic = await fetch(`${api}/pic?id=${id}&isRedirect=0`).then(res => res.json()).then(json => json.data)
-    const lrc = await fetch(`${api}/lrc?id=${id}`).then(res => res.text())
+    const url = await fetch(`${api}/songUrllist/${mid}`).then(res => res.json()).then(json => json.data[0])
+    const pic = await fetch(`${api}/albumImg/${albummid}/${singermid}`).then(res => res.json()).then(json => json.data.albumImgUrl)
+    const lrc = await fetch(`${api}/lrc/${songid}`).then(res => res.json()).then(json => json.data.lyric)
 
     listMain.innerHTML += `
-      <div class="song" data-id="${id}">
+      <div class="song" data-id="${mid}">
         <div>
           <span class="song-name">${name}</span>
           <span class="song-singer">${singer}</span>
@@ -91,7 +93,7 @@ async function addMusic(e) {
       </div>`
 
     player.musicList.addMusic({
-      id, name, singer, url, pic, lrc,
+      mid, name, singer, url, pic, lrc,
     })
   } catch (err) {
     console.log(err)
@@ -122,6 +124,3 @@ listMain.addEventListener('touchstart', function (e) {
     deleteMusic.call(this, e)
   }
 })
-
-
-console.log(fetch('https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg?is_xml=0&key=hah&g_tk=385294201&hostUin=0&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0htt').then(res => res.json()))

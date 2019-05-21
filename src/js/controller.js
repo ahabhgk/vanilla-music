@@ -77,7 +77,7 @@ function restoreShadow() {
 
 
 // 搜索框进行搜索音乐
-const api = 'https://v1.itooi.cn/tencent'
+const api = 'https://music.niubishanshan.top/api/v2/music'
 const searchMain = document.querySelector('.search-main')
 
 function debounce(fn, wait) { // 防抖
@@ -93,16 +93,16 @@ function debounce(fn, wait) { // 防抖
 async function searching() {
   const keywords = this.value
   try {
-    const res = await fetch(`${api}/search?keyword=${keywords}&type=song`).then(res => res.json())
-    const html = res.data.list.map(song => `
-      <div class="song" data-id="${song.songmid}" data-name="${song.songname}" data-singer="${song.singer[0].name}">
-        <div>
-          <span class="song-name">${song.songname}</span>
-          <span class="song-singer">${song.singer[0].name}</span>
-        </div>
-        <button class="song-btn add-and-play-btn"><span class="iconfont icon-right"></span></button>
-        <button class="song-btn add-btn"><span class="iconfont icon-plus"></span></button>
-      </div>`)
+    const res = await fetch(`${api}/search/${keywords}/0/20`).then(res => res.json())
+    const html = res.data.songList.map(song => `
+        <div class="song" data-mid="${song.songMid}" data-name="${song.songName}" data-singer="${song.singer[0].singerName}" data-albummid="${song.albumMid}" data-singermid="${song.singer[0].singerMid}" data-songid="${song.songId}">
+          <div>
+            <span class="song-name">${song.songName}</span>
+            <span class="song-singer">${song.singer[0].singerName}</span>
+          </div>
+          <button class="song-btn add-and-play-btn"><span class="iconfont icon-right"></span></button>
+          <button class="song-btn add-btn"><span class="iconfont icon-plus"></span></button>
+        </div>`)
     searchMain.innerHTML = html
   } catch (err) {
     if (!keywords) return
