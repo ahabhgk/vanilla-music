@@ -77,7 +77,7 @@ function restoreShadow() {
 
 
 // 搜索框进行搜索音乐
-const api = 'https://v1.itooi.cn/netease'
+const api = 'https://v1.itooi.cn/tencent'
 const searchMain = document.querySelector('.search-main')
 
 function debounce(fn, wait) { // 防抖
@@ -94,11 +94,11 @@ async function searching() {
   const keywords = this.value
   try {
     const res = await fetch(`${api}/search?keyword=${keywords}&type=song`).then(res => res.json())
-    const html = res.data.songs.map(song => `
-      <div class="song" data-id="${song.id}" data-name="${song.name}" data-singer="${song.ar[0].name}">
+    const html = res.data.list.map(song => `
+      <div class="song" data-id="${song.songmid}" data-name="${song.songname}" data-singer="${song.singer[0].name}">
         <div>
-          <span class="song-name">${song.name}</span>
-          <span class="song-singer">${song.ar[0].name}</span>
+          <span class="song-name">${song.songname}</span>
+          <span class="song-singer">${song.singer[0].name}</span>
         </div>
         <button class="song-btn add-and-play-btn"><span class="iconfont icon-right"></span></button>
         <button class="song-btn add-btn"><span class="iconfont icon-plus"></span></button>

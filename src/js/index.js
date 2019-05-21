@@ -55,7 +55,7 @@ search.addEventListener('input', Util.debouncedSearch)
 
 
 // api
-const api = 'https://v1.itooi.cn/netease'
+const api = 'https://v1.itooi.cn/tencent'
 
 // 在歌单中删除音乐
 function deleteMusic(e) {
@@ -78,7 +78,7 @@ async function addMusic(e) {
   try {
     const url = await fetch(`${api}/url?id=${id}&quality=flac&isRedirect=0`).then(res => res.json()).then(json => json.data)
     const pic = await fetch(`${api}/pic?id=${id}&isRedirect=0`).then(res => res.json()).then(json => json.data)
-    const lyrics = await fetch(`${api}/lrc?id=${id}`).then(res => res.text())
+    const lrc = await fetch(`${api}/lrc?id=${id}`).then(res => res.text())
 
     listMain.innerHTML += `
       <div class="song" data-id="${id}">
@@ -91,7 +91,7 @@ async function addMusic(e) {
       </div>`
 
     player.musicList.addMusic({
-      id, name, singer, url, pic, lyrics,
+      id, name, singer, url, pic, lrc,
     })
   } catch (err) {
     console.log(err)
