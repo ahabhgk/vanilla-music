@@ -186,7 +186,7 @@ export default class AudioComponent extends HTMLElement {
     this.bindEvent()
   }
 
-  static get observedAttributes() { return ['playing-name', 'playing-singer', 'playing-url', 'playing-pic', 'playing-lyrics'] }
+  static get observedAttributes() { return ['playing-name', 'playing-singer', 'playing-url', 'playing-pic', 'playing-lrc'] }
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch (attr) {
@@ -197,19 +197,11 @@ export default class AudioComponent extends HTMLElement {
       this.songSinger.innerText = newVal
       break
     case 'playing-url':
-      try {
-        this.audio.src = newVal
-      } catch (err) {
-        console.log(err)
-      }
+      this.audio.src = newVal
       break
     case 'playing-pic':
-      try {
-        this.songBg.style.background = `url(${newVal}) center/cover no-repeat`
-        this.songBg.innerText = ''
-      } catch (err) {
-        console.log(err)
-      }
+      this.songBg.style.background = `url(${newVal}) center/cover no-repeat`
+      this.songBg.innerText = ''
       break
     case 'playing-lrc':
       console.log(newVal)
