@@ -7,8 +7,8 @@
   <meta name="description" content="原乐是一个功能简单，设计有趣，交互方式独特的极简风格音乐播放器。">
   <meta name="keywords" content="原声音乐,极简,独特,音乐播放器">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <link rel="stylesheet" href="./src/style/font/iconfont.css">
   <link rel="stylesheet" href="./src/style/style.css">
+  <link rel="stylesheet" href="./src/style/font/iconfont.css">
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./src/img/logo.png">
   <link rel="apple-touch-startup-image" href="./src/img/logo.png">
@@ -18,7 +18,7 @@
   <title>原乐 - Vanilla Music - ☘️A so-simple music player. 🎶</title>
 </head>
 <body>
-  <main class="container web-font">
+  <main class="container web-font day">
     <div id="list" class="page prev">
       <button class="up-btn btn" type="button"></button>
       <div class="list-wrap">
@@ -31,6 +31,7 @@
 
     <div id="vanilla" class="page active">
       <button class="up-btn btn" type="button"></button>
+      <div class="toggle"></div>
       <div class="search-wrap">
         <input id="search" placeholder="输入你想听的歌..." />
         <button id="drop" type="button"><span class="iconfont icon-doubleright"></span></button>

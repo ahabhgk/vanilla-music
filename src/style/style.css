@@ -1,3 +1,13 @@
+:root {
+  --day-main: #f2f2f2;
+  --day-dec: #efefef;
+  --day-white: #ffffff;
+  --day-font: #000000;
+  --night-main: #303133;
+  --night-dec: #292929;
+  --night-black: #000000;
+  --night-font: #ffffff; }
+
 * {
   margin: 0;
   padding: 0;
@@ -17,6 +27,20 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.day {
+  --mode-main: var(--day-main);
+  --mode-dec: var(--day-dec);
+  --mode-color: var(--day-white);
+  --mode-font: var(--day-font);
+  color: var(--mode-font); }
+
+.night {
+  --mode-main: var(--night-main);
+  --mode-dec: var(--night-dec);
+  --mode-color: var(--night-white);
+  --mode-font: var(--night-font);
+  color: var(--mode-font); }
+
 .container {
   height: 100%;
   position: relative;
@@ -33,17 +57,17 @@ html, body {
 @keyframes arrowUp {
   from {
     opacity: 0;
-    transform: translate(0, 4vw) rotate(180deg); }
+    transform: translate(0, 2vw) rotate(180deg); }
   to {
     opacity: 1;
-    transform: translate(0, -4vw) rotate(180deg); } }
+    transform: translate(0, -2vw) rotate(180deg); } }
 @keyframes arrowDown {
   from {
     opacity: 0;
-    transform: translate(0, -4vw); }
+    transform: translate(0, -2vw); }
   to {
     opacity: 1;
-    transform: translate(0, 4vw); } }
+    transform: translate(0, 2vw); } }
   .container .up-btn {
     animation: arrowUp 3s infinite; }
   .container .down-btn {
@@ -56,7 +80,7 @@ html, body {
     width: 100vw;
     height: 100%;
     position: absolute;
-    background: #f2f2f2;
+    background: var(--mode-main);
     display: flex;
     flex-direction: column;
     justify-content: space-between; }
@@ -83,17 +107,17 @@ html, body {
         padding: 2vw;
         margin: 0 auto;
         transition: all .2s;
-        border-bottom: 1px solid #D8D8D8;
+        border-bottom: 1px solid var(--mode-dec);
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
         display: flex;
         justify-content: space-between;
         align-items: center; }
         .container #list .list-wrap .list-main .song:nth-child(2n) {
           transform: perspective(100px) rotateX(3deg) translateY(2px) scale(1.001);
-          background: linear-gradient(to bottom, #ffffff 0%, #EFEFEF 100%); }
+          background: linear-gradient(to bottom, var(--mode-color) 0%, var(--mode-dec) 100%); }
         .container #list .list-wrap .list-main .song:nth-child(2n+1) {
           transform: perspective(100px) rotateX(-3deg) translateY(3px);
-          background: linear-gradient(to top, #ffffff 0%, #EFEFEF 100%); }
+          background: linear-gradient(to top, var(--mode-color) 0%, var(--mode-dec) 100%); }
         .container #list .list-wrap .list-main .song .song-name {
           display: inline-block;
           height: 100%;
@@ -125,6 +149,33 @@ html, body {
         transform: scale(1.2); }
   .container #vanilla {
     text-align: center; }
+    .container #vanilla .toggle {
+      position: absolute;
+      top: 8vw;
+      right: 5vw;
+      background: #fff;
+      border: 2px solid #00151f;
+      height: 20px;
+      width: 45px;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: 0.5s; }
+    .container #vanilla .toggle.night-mode {
+      background: #00151f;
+      border: 2px solid #fff; }
+    .container #vanilla .toggle:before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background: #00151f;
+      border-radius: 50%;
+      transition: 0.5s; }
+    .container #vanilla .toggle.night-mode:before {
+      left: 27px;
+      background: #fff; }
     .container #vanilla .search-wrap {
       font-size: 0;
       width: 100vw;
@@ -139,13 +190,12 @@ html, body {
         height: 14vw;
         width: 80vw;
         padding-left: 5vw;
-        background: #f2f2f2;
+        background: var(--mode-main);
         line-height: 14vw;
         border-radius: 5px;
-        border: 2.5vw solid #F7F7F7;
+        border: 2.5vw solid var(--mode-dec);
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.19);
         font-size: 6vw;
-        color: #999;
         outline: none; }
       .container #vanilla .search-wrap #drop {
         position: absolute;
@@ -158,8 +208,7 @@ html, body {
         background: transparent;
         outline: none; }
         .container #vanilla .search-wrap #drop span {
-          font-size: 4vw;
-          color: #999; }
+          font-size: 4vw; }
       .container #vanilla .search-wrap .search-main {
         position: absolute;
         top: 22vw;
@@ -177,17 +226,17 @@ html, body {
           padding: 2vw;
           margin: 0 auto;
           transition: all .2s;
-          border-bottom: 1px solid #D8D8D8;
+          border-bottom: 1px solid var(--mode-dec);
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
           display: flex;
           justify-content: space-between;
           align-items: center; }
           .container #vanilla .search-wrap .search-main .song:nth-child(2n) {
             transform: perspective(100px) rotateX(3deg) translateY(2px) scale(1.001);
-            background: linear-gradient(to bottom, #ffffff 0%, #EFEFEF 100%); }
+            background: linear-gradient(to bottom, var(--mode-color) 0%, var(--mode-dec) 100%); }
           .container #vanilla .search-wrap .search-main .song:nth-child(2n+1) {
             transform: perspective(100px) rotateX(-3deg) translateY(3px);
-            background: linear-gradient(to top, #ffffff 0%, #EFEFEF 100%); }
+            background: linear-gradient(to top, var(--mode-color) 0%, var(--mode-dec) 100%); }
           .container #vanilla .search-wrap .search-main .song .song-name {
             display: inline-block;
             height: 100%;
@@ -217,7 +266,6 @@ html, body {
               text-align: center; }
         .container #vanilla .search-wrap .search-main .search-failed {
           font-size: 4vw;
-          color: #000;
           display: flex;
           justify-content: center; }
           .container #vanilla .search-wrap .search-main .search-failed span {
@@ -226,8 +274,8 @@ html, body {
       transform: none; }
     .container #vanilla .tit {
       text-align: center;
-      color: rgba(0, 103, 220, 0.7);
-      text-shadow: rgba(0, 255, 0, 0.7) -5px -5px 0;
+      color: #55ceba;
+      text-shadow: #1296db -5px -5px 0;
       width: 100vw;
       font-size: 30vw;
       z-index: 1; }

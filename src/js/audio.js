@@ -113,8 +113,8 @@ export default class AudioComponent extends HTMLElement {
       }
       .song-bg {
         text-align: center;
-        color: rgba(0, 103, 220, 0.7);
-        text-shadow: rgba(0, 255, 0, 0.7) -5px -5px 0;
+        color: #55ceba;
+        text-shadow: #1296db -5px -5px 0;
         width: 100%;
         height: 100%;
         display: flex;
