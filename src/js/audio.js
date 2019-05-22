@@ -18,12 +18,26 @@ export default class AudioComponent extends HTMLElement {
   }
 
   updateProgress() {
-    if (this.dot.isDroping) return
-
     const len = this.progress.offsetWidth
     const rate = this.audio.currentTime / this.audio.duration
     const offset = rate * len
     this.dot.style.transform = `translate(${offset - 19}px, 0)`
+  }
+
+  updateLyric() {
+    let activeLyric
+
+    Array.from(this.lyrics.children).forEach((lrc) => {
+      lrc.classList.remove('activeLyric')
+      const isThisLrc = (Math.round(parseFloat(lrc.dataset.time, 10)) - Math.round(this.audio.currentTime)) <= 0.2
+      if (isThisLrc) {
+        activeLyric = lrc
+      }
+    })
+
+    const offset = this.lyrics.parentElement.offsetHeight / 2 - activeLyric.offsetTop - activeLyric.offsetHeight / 2
+    this.lyrics.style.transform = `translate(0, ${offset}px)`
+    activeLyric.classList.add('activeLyric')
   }
 
   play() {
@@ -91,6 +105,9 @@ export default class AudioComponent extends HTMLElement {
         align-items: center;
       }
       .song-tit {
+        display: inline-block;
+        text-align: center;
+        width: 90vw;
         font-size: 8vw;
         transform: translate(0, -6vw);
         overflow: hidden;
@@ -98,6 +115,9 @@ export default class AudioComponent extends HTMLElement {
         white-space: nowrap;
       }
       .song-singer {
+        display: inline-block;
+        text-align: center;
+        width: 90vw;
         transform: translate(0, -7vw);
         overflow: hidden;
         text-overflow: ellipsis;
@@ -110,6 +130,8 @@ export default class AudioComponent extends HTMLElement {
         transform: translate(0, -5vw);
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
         position: relative;
+        overflow: hidden;
+        transition: all .4s;
       }
       .song-bg {
         text-align: center;
@@ -125,9 +147,21 @@ export default class AudioComponent extends HTMLElement {
       }
       .lyrics {
         width: 100%;
-        height: 500px;
         position: absolute;
         top: 0;
+        transform: translate(0, 0);
+      }
+      .lyric {
+        color: #1296db;
+        text-align: center;
+        font-size: 16px;
+        padding: 3vw 0;
+        transition: all .4s;
+      }
+      .activeLyric {
+        color: #55ceba;
+        font-weight: bold;
+        transform: scale(1.3);
       }
       .progress {
         position: relative;
@@ -160,6 +194,7 @@ export default class AudioComponent extends HTMLElement {
       this.playNext()
     })
     this.audio.addEventListener('timeupdate', this.updateProgress.bind(this))
+    this.audio.addEventListener('timeupdate', this.updateLyric.bind(this))
     this.dot.addEventListener('touchstart', function () {
       this.isDroping = true
     })
@@ -204,8 +239,15 @@ export default class AudioComponent extends HTMLElement {
       this.songBg.innerText = ''
       break
     case 'playing-lrc':
-      console.log(newVal)
-      this.lyrics.innerHTML = newVal.split('[换行]').filter(lrc => lrc.split(']')[1] !== '').map(lrc => lrc.match(/(\[\d{2}:\d{2}.\d{2}\])(.+)/))
+      try {
+        this.lyrics.innerHTML = newVal.split('[换行]')
+          .filter(lyric => lyric.split(']')[1] !== '')
+          .map(lyric => lyric.match(/\[(\d{2}):(\d{2}.\d{2})\](.+)/))
+          .map(lrc => `<div class="lyric" data-time="${parseInt(lrc[1], 10) * 60 + parseFloat(lrc[2], 10)}">${lrc[3]}</div>`)
+          .join('')
+      } catch {
+        this.lyrics.innerText = 'Vanilla Music'
+      }
       break
     }
   }

@@ -215,6 +215,7 @@ export default {
   dropSearch,
   shadow,
   restoreShadow,
+  debounce,
   debouncedSearch: debounce(searching, 300),
   deleteMusic,
   addMusic,
