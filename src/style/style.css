@@ -192,6 +192,7 @@ html, body {
         padding-left: 5vw;
         background: var(--mode-main);
         line-height: 14vw;
+        color: #a8a8a8;
         border-radius: 5px;
         border: 2.5vw solid var(--mode-dec);
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.19);

@@ -27,9 +27,11 @@ function toggleMode() {
   if (isDayMode) {
     container.classList.remove('day')
     container.classList.add('night')
+    document.querySelector('h-audio').shadowRoot.firstElementChild.querySelector('.dot').style.backgroundImage = 'url(./src/img/dot-night.png)'
   } else {
     container.classList.remove('night')
     container.classList.add('day')
+    document.querySelector('h-audio').shadowRoot.firstElementChild.querySelector('.dot').style.backgroundImage = 'url(./src/img/dot-day.png)'
   }
 }
 

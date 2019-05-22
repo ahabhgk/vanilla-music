@@ -138,7 +138,7 @@ export default class AudioComponent extends HTMLElement {
         transform: translate(0, 5vw);
       }
       .dot {
-        background: url(./src/img/dot.png) no-repeat;
+        background-image: url(./src/img/dot-day.png);
         background-size: cover;
         width: 38px;
         height: 38px;
@@ -205,7 +205,7 @@ export default class AudioComponent extends HTMLElement {
       break
     case 'playing-lrc':
       console.log(newVal)
-      this.lyrics.innerHTML = `${newVal}`
+      this.lyrics.innerHTML = newVal.split('[换行]').filter(lrc => lrc.split(']')[1] !== '').map(lrc => lrc.match(/(\[\d{2}:\d{2}.\d{2}\])(.+)/))
       break
     }
   }

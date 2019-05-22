@@ -1,6 +1,7 @@
 import AudioComponent from './audio.js'
 import Util from './controller.js'
 
+// 注册 audio 组件
 customElements.define('h-audio', AudioComponent)
 
 
@@ -31,6 +32,7 @@ const drop = document.querySelector('#drop')
 
 drop.addEventListener('touchstart', Util.dropSearch)
 
+
 // 标题的影子效果
 const firstPage = document.querySelector('#vanilla')
 
@@ -44,6 +46,7 @@ const searchMain = document.querySelector('.search-main')
 const listMain = document.querySelector('.list-main')
 
 search.addEventListener('input', Util.debouncedSearch)
+
 
 // 搜索框滑动不影响 tit 的 text-shadow
 searchMain.addEventListener('touchmove', (e) => {
@@ -59,6 +62,7 @@ searchMain.addEventListener('touchstart', (e) => {
     Util.addMusic(e)
   }
 })
+
 
 // 对歌单中的播放音乐、删除音乐进行事件委托
 listMain.addEventListener('touchstart', function (e) {
