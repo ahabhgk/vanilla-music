@@ -12,6 +12,8 @@ export default class AudioComponent extends HTMLElement {
     this.songSinger = document.createElement('span')
     this.songBg = document.createElement('div')
     this.lyrics = document.createElement('div')
+    this.lyrics.startX = 0
+    this.lyrics.startY = 0
     this.progress = document.createElement('div')
     this.dot = document.createElement('div')
     this.dot.isDroping = false
@@ -38,6 +40,38 @@ export default class AudioComponent extends HTMLElement {
     const offset = this.lyrics.parentElement.offsetHeight / 2 - activeLyric.offsetTop - activeLyric.offsetHeight / 2
     this.lyrics.style.transform = `translate(0, ${offset}px)`
     activeLyric.classList.add('activeLyric')
+  }
+
+  changePlayingStatus() {
+    if (this.audio.paused) {
+      this.audio.play()
+    } else {
+      this.audio.pause()
+    }
+  }
+
+  handleSlide(e) {
+    switch (e.type) {
+    case 'touchstart':
+      this.lyrics.startX = e.targetTouches[0].pageX
+      this.lyrics.startY = e.targetTouches[0].pageY
+      break
+    case 'touchmove':
+      e.stopPropagation()
+      break
+    case 'touchend':
+      const spanX = e.changedTouches[0].pageX - this.lyrics.startX
+      const spanY = e.changedTouches[0].pageY - this.lyrics.startY
+
+      if (Math.abs(spanX) > Math.abs(spanY)) {
+        if (spanX > 60) {
+          this.playPrev()
+        } else if (spanX < -60) {
+          this.playNext()
+        }
+      }
+      break
+    }
   }
 
   play() {
@@ -193,12 +227,22 @@ export default class AudioComponent extends HTMLElement {
     this.audio.addEventListener('ended', () => {
       this.playNext()
     })
+
+    this.lyrics.addEventListener('touchstart', this.changePlayingStatus.bind(this))
+
+    this.lyrics.addEventListener('touchstart', this.handleSlide.bind(this))
+    this.lyrics.addEventListener('touchmove', this.handleSlide.bind(this))
+    this.lyrics.addEventListener('touchend', this.handleSlide.bind(this))
+
     this.audio.addEventListener('timeupdate', this.updateProgress.bind(this))
     this.audio.addEventListener('timeupdate', this.updateLyric.bind(this))
+
     this.dot.addEventListener('touchstart', function () {
       this.isDroping = true
     })
     this.dot.addEventListener('touchmove', (e) => {
+      e.stopPropagation()
+
       if (!this.dot.isDroping) return
 
       const len = this.progress.offsetWidth
