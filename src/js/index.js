@@ -40,6 +40,10 @@ const listMain = document.querySelector('.list-main')
 
 search.addEventListener('input', Util.debouncedSearch)
 
+searchMain.addEventListener('touchmove', (e) => {
+  e.stopPropagation()
+})
+
 
 // 对搜索结果中添加音乐、添加并播放音乐进行事件委托
 searchMain.addEventListener('touchstart', (e) => {

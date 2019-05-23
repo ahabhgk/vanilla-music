@@ -12,6 +12,10 @@ async function registerSW() {
 function ready() {
   document.body.style.height = `${document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight}px`
   document.querySelectorAll('.page').forEach(page => page.style.transition = 'all 1s')
+  document.body.addEventListener('touchmove', (e) => {
+    e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
+  }, { passive: false }) // passive 参数不能省略，用来兼容ios和android
+
   registerSW()
 }
 
