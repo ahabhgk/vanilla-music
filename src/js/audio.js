@@ -4,6 +4,7 @@ export default class AudioComponent extends HTMLElement {
   constructor() {
     super()
 
+    // 播放列表
     this.musicList = new MusicList()
     this.index = 0
 
@@ -19,6 +20,7 @@ export default class AudioComponent extends HTMLElement {
     this.dot.isDroping = false
   }
 
+  // 更新进度条
   updateProgress() {
     const len = this.progress.offsetWidth
     const rate = this.audio.currentTime / this.audio.duration
@@ -26,6 +28,7 @@ export default class AudioComponent extends HTMLElement {
     this.dot.style.transform = `translate(${offset - 19}px, 0)`
   }
 
+  // 更新歌词
   updateLyric() {
     let activeLyric
 
@@ -42,6 +45,7 @@ export default class AudioComponent extends HTMLElement {
     activeLyric.classList.add('activeLyric')
   }
 
+  // 暂停播放
   changePlayingStatus() {
     if (this.audio.paused) {
       this.audio.play()
@@ -50,6 +54,7 @@ export default class AudioComponent extends HTMLElement {
     }
   }
 
+  // 切歌
   handleSlide(e) {
     switch (e.type) {
     case 'touchstart':
@@ -74,6 +79,7 @@ export default class AudioComponent extends HTMLElement {
     }
   }
 
+  // 更改组件属性，进行音乐播放
   play() {
     const {
       name, singer, url, pic, lrc,
@@ -86,21 +92,25 @@ export default class AudioComponent extends HTMLElement {
     this.setAttribute('playing-lrc', lrc)
   }
 
+  // 根据 id 播放音乐
   playMusic(id) {
     this.index = this.musicList.findMusicIndexById(id)
     this.play()
   }
 
+  // 下一首
   playNext() {
     (++this.index >= this.musicList.length) && (this.index = 0)
     this.play()
   }
 
+  // 上一首
   playPrev() {
     (--this.index < 0) && (this.index = this.musicList.length - 1)
     this.play()
   }
 
+  // 渲染组件，用于 connectedCallback
   render() {
     const shadow = this.attachShadow({ mode: 'open' })
 
@@ -219,14 +229,18 @@ export default class AudioComponent extends HTMLElement {
     shadow.appendChild(style)
   }
 
+  // 绑定事件
   bindEvent() {
+    // 音乐播放
     this.audio.addEventListener('canplay', function () {
       this.play()
     })
+    // 播放结束后播放下一首
     this.audio.addEventListener('ended', () => {
       this.playNext()
     })
 
+    // 播放时首页标题动画切换
     this.audio.addEventListener('playing', () => {
       const tit = document.querySelector('.tit')
 
@@ -234,6 +248,7 @@ export default class AudioComponent extends HTMLElement {
       tit.classList.remove('tit-paused')
     })
 
+    // 暂停时首页标题动画切换
     this.audio.addEventListener('pause', () => {
       const tit = document.querySelector('.tit')
 
@@ -241,15 +256,19 @@ export default class AudioComponent extends HTMLElement {
       tit.classList.add('tit-paused')
     })
 
+    // 播放暂停
     this.lyrics.addEventListener('touchstart', this.changePlayingStatus.bind(this))
 
+    // 切歌
     this.lyrics.addEventListener('touchstart', this.handleSlide.bind(this))
     this.lyrics.addEventListener('touchmove', this.handleSlide.bind(this))
     this.lyrics.addEventListener('touchend', this.handleSlide.bind(this))
 
+    // 音乐播放时进度条和歌词的更新
     this.audio.addEventListener('timeupdate', this.updateProgress.bind(this))
     this.audio.addEventListener('timeupdate', this.updateLyric.bind(this))
 
+    // 进度条拖动
     this.dot.addEventListener('touchstart', function () {
       this.isDroping = true
     })
@@ -280,6 +299,7 @@ export default class AudioComponent extends HTMLElement {
 
   static get observedAttributes() { return ['playing-name', 'playing-singer', 'playing-url', 'playing-pic', 'playing-lrc'] }
 
+  // 属性改变时组件相应的改变
   attributeChangedCallback(attr, oldVal, newVal) {
     switch (attr) {
     case 'playing-name':
