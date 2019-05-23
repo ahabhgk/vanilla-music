@@ -245,7 +245,6 @@ export default class AudioComponent extends HTMLElement {
       const tit = document.querySelector('.tit')
 
       tit.classList.add('tit-playing')
-      tit.classList.remove('tit-paused')
     })
 
     // 暂停时首页标题动画切换
@@ -253,7 +252,6 @@ export default class AudioComponent extends HTMLElement {
       const tit = document.querySelector('.tit')
 
       tit.classList.remove('tit-playing')
-      tit.classList.add('tit-paused')
     })
 
     // 播放暂停
