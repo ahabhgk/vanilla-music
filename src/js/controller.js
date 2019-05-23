@@ -94,26 +94,6 @@ function dropSearch() {
 }
 
 
-// 标题的影子效果
-const firstPage = document.querySelector('#vanilla')
-const tit = document.querySelector('#vanilla>.tit')
-const WALK = 200
-
-function shadow(e) {
-  const { offsetWidth: width, offsetHeight: height } = firstPage
-  const { pageX: x, pageY: y } = e.targetTouches[0]
-
-  const xWalk = Math.round((x / width * WALK) - (WALK / 2))
-  const yWalk = Math.round((y / height * WALK) - (WALK / 2))
-
-  tit.style.textShadow = `${xWalk}px ${yWalk}px 0 #f19994`
-}
-
-function restoreShadow() {
-  tit.style.textShadow = '#1296db -5px -5px 0'
-}
-
-
 // 搜索框进行搜索音乐
 const api = 'https://music.niubishanshan.top/api/v2/music'
 const searchMain = document.querySelector('.search-main')
@@ -213,8 +193,6 @@ export default {
   rollUp,
   rollDown,
   dropSearch,
-  shadow,
-  restoreShadow,
   debounce,
   debouncedSearch: debounce(searching, 300),
   deleteMusic,

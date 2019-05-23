@@ -112,7 +112,7 @@ export default class AudioComponent extends HTMLElement {
 
     const lyricsWrap = document.createElement('div')
     lyricsWrap.classList.add('lyrics-wrap')
-    this.songBg.innerText = 'Vanilla Music'
+    this.songBg.innerText = 'VANILLA MUSIC'
     this.songBg.classList.add('song-bg')
     this.lyrics.classList.add('lyrics')
     lyricsWrap.appendChild(this.songBg)
@@ -165,17 +165,14 @@ export default class AudioComponent extends HTMLElement {
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
         position: relative;
         overflow: hidden;
-        transition: all .4s;
       }
       .song-bg {
         text-align: center;
-        color: #55ceba;
-        text-shadow: #1296db -5px -5px 0;
         width: 100%;
         height: 100%;
         display: flex;
         align-items: center;
-        font-size: 20vw;
+        font-size: 15vw;
         filter: blur(4px);
         z-index: 1;
       }
@@ -184,16 +181,18 @@ export default class AudioComponent extends HTMLElement {
         position: absolute;
         top: 0;
         transform: translate(0, 0);
+        transition: all 1s;
       }
       .lyric {
-        color: #1296db;
+        width: 70%;
+        margin: 0 auto;
         text-align: center;
         font-size: 16px;
         padding: 3vw 0;
-        transition: all .4s;
+        transition: all 1s;
       }
       .activeLyric {
-        color: #55ceba;
+        color: #d90000;
         font-weight: bold;
         transform: scale(1.3);
       }
@@ -226,6 +225,20 @@ export default class AudioComponent extends HTMLElement {
     })
     this.audio.addEventListener('ended', () => {
       this.playNext()
+    })
+
+    this.audio.addEventListener('playing', () => {
+      const tit = document.querySelector('.tit')
+
+      tit.classList.add('tit-playing')
+      tit.classList.remove('tit-paused')
+    })
+
+    this.audio.addEventListener('pause', () => {
+      const tit = document.querySelector('.tit')
+
+      tit.classList.remove('tit-playing')
+      tit.classList.add('tit-paused')
     })
 
     this.lyrics.addEventListener('touchstart', this.changePlayingStatus.bind(this))
@@ -290,7 +303,7 @@ export default class AudioComponent extends HTMLElement {
           .map(lrc => `<div class="lyric" data-time="${parseInt(lrc[1], 10) * 60 + parseFloat(lrc[2], 10)}">${lrc[3]}</div>`)
           .join('')
       } catch {
-        this.lyrics.innerText = 'Vanilla Music'
+        this.lyrics.innerText = 'VANILLA MUSIC'
       }
       break
     }

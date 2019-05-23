@@ -33,25 +33,12 @@ const drop = document.querySelector('#drop')
 drop.addEventListener('touchstart', Util.dropSearch)
 
 
-// 标题的影子效果
-const firstPage = document.querySelector('#vanilla')
-
-firstPage.addEventListener('touchmove', Util.shadow)
-firstPage.addEventListener('touchend', Util.restoreShadow)
-
-
 // 操作 MusicList
 const search = document.querySelector('#search')
 const searchMain = document.querySelector('.search-main')
 const listMain = document.querySelector('.list-main')
 
 search.addEventListener('input', Util.debouncedSearch)
-
-
-// 搜索框滑动不影响 tit 的 text-shadow
-searchMain.addEventListener('touchmove', (e) => {
-  e.stopPropagation()
-})
 
 
 // 对搜索结果中添加音乐、添加并播放音乐进行事件委托

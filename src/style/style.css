@@ -275,11 +275,80 @@ html, body {
       transform: none; }
     .container #vanilla .tit {
       text-align: center;
-      color: #55ceba;
-      text-shadow: #1296db -5px -5px 0;
-      width: 100vw;
-      font-size: 30vw;
+      width: 80vw;
+      margin: 0 auto;
+      font-size: 20vw;
       z-index: 1; }
+    .container #vanilla .tit-playing {
+      color: #ffffff;
+      position: relative;
+      text-shadow: none; }
+    .container #vanilla .tit-playing::before, .container #vanilla .tit-playing::after {
+      content: attr(data-content);
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1; }
+    .container #vanilla .tit-playing::before {
+      color: #03A9F4;
+      animation: jump 0.5s linear infinite;
+      animation-delay: 0.2s; }
+    .container #vanilla .tit-playing::after {
+      color: #E91E63;
+      animation: jump 0.5s linear infinite; }
+@keyframes jump {
+  0% {
+    left: -6px;
+    top: -6px; }
+  25% {
+    left: -3px;
+    top: -3px; }
+  50% {
+    left: 0px;
+    top: 3px; }
+  75% {
+    left: 3px;
+    top: 0px; }
+  100% {
+    left: -3px;
+    top: 6px; } }
+    .container #vanilla .tit-paused span {
+      color: #303133;
+      text-shadow: none;
+      animation: light 3s linear infinite; }
+    .container #vanilla .tit-paused span:nth-child(1) {
+      animation-delay: 0s; }
+    .container #vanilla .tit-paused span:nth-child(2) {
+      animation-delay: 0.25s; }
+    .container #vanilla .tit-paused span:nth-child(3) {
+      animation-delay: 0.5s; }
+    .container #vanilla .tit-paused span:nth-child(4) {
+      animation-delay: 0.75s; }
+    .container #vanilla .tit-paused span:nth-child(5) {
+      animation-delay: 1s; }
+    .container #vanilla .tit-paused span:nth-child(6) {
+      animation-delay: 1.25s; }
+    .container #vanilla .tit-paused span:nth-child(7) {
+      animation-delay: 1.5s; }
+    .container #vanilla .tit-paused span:nth-child(9) {
+      animation-delay: 1.75s; }
+    .container #vanilla .tit-paused span:nth-child(10) {
+      animation-delay: 2s; }
+    .container #vanilla .tit-paused span:nth-child(11) {
+      animation-delay: 2.25s; }
+    .container #vanilla .tit-paused span:nth-child(12) {
+      animation-delay: 2.5s; }
+    .container #vanilla .tit-paused span:nth-child(13) {
+      animation-delay: 2.75s; }
+@keyframes light {
+  0%, 100% {
+    color: #ffffff;
+    filter: blur(2px);
+    text-shadow: 0 0 10px #1e98ff, 0 0 20px #1e98ff, 0 0 30px #1e98ff, 0 0 40px #1e98ff, 0 0 100px #1e98ff, 0 0 200px #1e98ff, 0 0 300px #1e98ff, 0 0 400px #1e98ff; }
+  5%, 95% {
+    color: #303133;
+    filter: blur(0);
+    text-shadow: none; } }
   .container h-audio {
     width: 100vw;
     height: 70%; }
