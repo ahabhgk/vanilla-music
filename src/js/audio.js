@@ -322,7 +322,7 @@ export default class AudioComponent extends HTMLElement {
           .map(lrc => `<div class="lyric" data-time="${parseInt(lrc[1], 10) * 60 + parseFloat(lrc[2], 10)}">${lrc[3]}</div>`)
           .join('')
       } catch {
-        this.lyrics.innerText = 'VANILLA MUSIC'
+        this.lyrics.parentElement.innerText = 'VANILLA MUSIC'
       }
       break
     }
