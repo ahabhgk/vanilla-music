@@ -81,7 +81,6 @@ export default class AudioComponent extends HTMLElement {
 
   // 更改组件属性，进行音乐播放
   play() {
-    console.log(this.index)
     const {
       name, singer, url, pic, lrc,
     } = this.musicList[this.index]
@@ -95,23 +94,19 @@ export default class AudioComponent extends HTMLElement {
 
   // 根据 id 播放音乐
   playMusic(mid) {
-    console.log(this.index)
     this.index = this.musicList.findMusicIndexByMid(mid)
-    console.log(this.index)
     this.play()
   }
 
   // 下一首
   playNext() {
     (++this.index >= this.musicList.length) && (this.index = 0)
-    console.log(this.index)
     this.play()
   }
 
   // 上一首
   playPrev() {
     (--this.index < 0) && (this.index = this.musicList.length - 1)
-    console.log(this.index)
     this.play()
   }
 

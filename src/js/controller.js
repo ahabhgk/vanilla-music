@@ -151,7 +151,6 @@ function deleteMusic(e) {
 // 在歌单中播放音乐
 function playMusic(e) {
   const { mid } = e.target.parentElement.parentElement.dataset
-  console.log(mid)
 
   player.playMusic(mid)
 }
