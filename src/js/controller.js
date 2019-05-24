@@ -145,14 +145,15 @@ const listMain = document.querySelector('.list-main')
 function deleteMusic(e) {
   const removed = this.removeChild(e.target.parentElement.parentElement)
 
-  player.musicList.deleteMusic(removed.dataset.id)
+  player.musicList.deleteMusic(removed.dataset.mid)
 }
 
 // 在歌单中播放音乐
 function playMusic(e) {
-  const { id } = e.target.parentElement.parentElement.dataset
+  const { mid } = e.target.parentElement.parentElement.dataset
+  console.log(mid)
 
-  player.playMusic(id)
+  player.playMusic(mid)
 }
 
 // 从搜索结果中添加音乐
@@ -167,7 +168,7 @@ async function addMusic(e) {
     const lrc = await fetch(`${api}/lrc/${songid}`).then(res => res.json()).then(json => json.data.lyric)
 
     listMain.innerHTML += `
-      <div class="song" data-id="${mid}">
+      <div class="song" data-mid="${mid}">
         <div>
           <span class="song-name">${name}</span>
           <span class="song-singer">${singer}</span>

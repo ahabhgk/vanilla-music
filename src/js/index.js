@@ -58,6 +58,7 @@ searchMain.addEventListener('touchstart', (e) => {
 // 对歌单中的播放音乐、删除音乐进行事件委托
 listMain.addEventListener('touchstart', function (e) {
   if (e.target.parentElement.classList.contains('play-btn')) {
+    console.log(e)
     Util.playMusic(e)
   } else if (e.target.parentElement.classList.contains('delete-btn')) {
     Util.deleteMusic.call(this, e)

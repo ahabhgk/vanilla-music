@@ -1,12 +1,13 @@
-export default class MusicController extends Array {
+export default class MusicList extends Array {
   constructor() {
     super()
   }
 
-  findMusicIndexById(musicId) {
+  findMusicIndexByMid(musicMid) {
     let index
     this.forEach((music, i) => {
-      if (music.id === musicId) {
+      console.log(music)
+      if (music.mid === musicMid) {
         index = i
       }
     })
@@ -15,10 +16,12 @@ export default class MusicController extends Array {
 
   async addMusic(musicData) {
     this.push(musicData)
+    console.log(this)
   }
 
-  deleteMusic(musicId) {
-    const index = this.findMusicIndexById(musicId)
+  deleteMusic(musicMid) {
+    const index = this.findMusicIndexByMid(musicMid)
     this.splice(index, 1)
+    console.log(this)
   }
 }

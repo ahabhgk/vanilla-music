@@ -81,6 +81,7 @@ export default class AudioComponent extends HTMLElement {
 
   // 更改组件属性，进行音乐播放
   play() {
+    console.log(this.index)
     const {
       name, singer, url, pic, lrc,
     } = this.musicList[this.index]
@@ -93,20 +94,24 @@ export default class AudioComponent extends HTMLElement {
   }
 
   // 根据 id 播放音乐
-  playMusic(id) {
-    this.index = this.musicList.findMusicIndexById(id)
+  playMusic(mid) {
+    console.log(this.index)
+    this.index = this.musicList.findMusicIndexByMid(mid)
+    console.log(this.index)
     this.play()
   }
 
   // 下一首
   playNext() {
     (++this.index >= this.musicList.length) && (this.index = 0)
+    console.log(this.index)
     this.play()
   }
 
   // 上一首
   playPrev() {
     (--this.index < 0) && (this.index = this.musicList.length - 1)
+    console.log(this.index)
     this.play()
   }
 
@@ -255,12 +260,13 @@ export default class AudioComponent extends HTMLElement {
     })
 
     // 播放暂停
-    this.lyrics.addEventListener('touchstart', this.changePlayingStatus.bind(this))
+    const lyricsWrap = this.lyrics.parentElement
+    lyricsWrap.addEventListener('touchstart', this.changePlayingStatus.bind(this))
 
     // 切歌
-    this.lyrics.addEventListener('touchstart', this.handleSlide.bind(this))
-    this.lyrics.addEventListener('touchmove', this.handleSlide.bind(this))
-    this.lyrics.addEventListener('touchend', this.handleSlide.bind(this))
+    lyricsWrap.addEventListener('touchstart', this.handleSlide.bind(this))
+    lyricsWrap.addEventListener('touchmove', this.handleSlide.bind(this))
+    lyricsWrap.addEventListener('touchend', this.handleSlide.bind(this))
 
     // 音乐播放时进度条和歌词的更新
     this.audio.addEventListener('timeupdate', this.updateProgress.bind(this))
